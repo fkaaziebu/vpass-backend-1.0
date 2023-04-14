@@ -1,5 +1,5 @@
 const register = (req, res) => {
-  return res.send();
+  return res.send({message: "User created"});
 };
 
 module.exports = register;
