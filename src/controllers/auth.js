@@ -10,6 +10,7 @@ const register = async (req, res) => {
     });
     return res.status(400).send({ validationErrors: validationErrors });
   }
+
   await UserService.save(req.body);
   return res.send({ message: "User created" });
 };
