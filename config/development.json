@@ -1,0 +1,10 @@
+{
+  "database": {
+    "database": "vpass",
+    "username": "vpass-user",
+    "password": "db-p4ss",
+    "dialect": "sqlite",
+    "storage": "./database.sqlite",
+    "logging": false
+  }
+}
