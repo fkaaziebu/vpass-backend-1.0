@@ -14,16 +14,6 @@ beforeEach(() => {
   return User.destroy({ truncate: true });
 });
 
-// afterAll(async () => {
-//   jest.setTimeout(5000);
-// });
-
-const validUser = {
-  username: "user1",
-  email: "user1@mail.com",
-  password: "P4ssword",
-};
-
 describe("User Registration", () => {
   const postValidUser = () => {
     return request(app).post("/api/1.0/users").send({

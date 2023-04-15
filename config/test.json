@@ -4,7 +4,7 @@
     "username": "vpass-user",
     "password": "db-p4ss",
     "dialect": "sqlite",
-    "storage": "./database.sqlite",
+    "storage": ":memory:",
     "logging": false
   }
 }

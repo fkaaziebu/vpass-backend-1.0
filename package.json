@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index",
-    "test": "jest --watch"
+    "start": "cross-env NODE_ENV=development nodemon index",
+    "test": "cross-env NODE_ENV=test jest --watch"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "sqlite3": "^5.1.6"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
