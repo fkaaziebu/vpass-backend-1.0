@@ -1,5 +1,6 @@
 const express = require("express");
 const authRoutes = require("./src/routes/auth");
+const ErrorHandler = require("./src/error/ErrorHandler");
 
 const app = express();
 
@@ -7,6 +8,6 @@ app.use(express.json());
 
 app.use(authRoutes);
 
-// console.log("env: " + process.env.NODE_ENV);
+app.use(ErrorHandler);
 
 module.exports = app;

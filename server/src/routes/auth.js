@@ -1,5 +1,6 @@
 const express = require("express");
 const register = require("../controllers/auth");
+const activate = require("../controllers/activate");
 const UserService = require("../services/UserService");
 const { check } = require("express-validator");
 
@@ -39,5 +40,7 @@ router.post(
     ),
   register
 );
+
+router.post("/api/1.0/users/token/:token", activate);
 
 module.exports = router;
