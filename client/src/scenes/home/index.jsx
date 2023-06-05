@@ -21,7 +21,7 @@ function Home() {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await axios.post("http://localhost:3001/api/1.0/auth", {
+      const response = await axios.post("https://vpass-backend.onrender.com/api/1.0/auth", {
         ...values,
       });
       dispatch(userAuth(response.data));

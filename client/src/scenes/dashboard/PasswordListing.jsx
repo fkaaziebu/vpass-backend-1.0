@@ -11,7 +11,7 @@ function PasswordListing() {
 
   async function handleFetchPassword() {
     const response = await axios.get(
-      "http://localhost:3001/api/1.0/passwords/" + user.id,
+      "https://vpass-backend.onrender.com/api/1.0/passwords/" + user.id,
       {
         headers: {
           Authorization: `Bearer ${user.token}`,

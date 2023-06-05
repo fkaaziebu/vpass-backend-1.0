@@ -15,7 +15,10 @@ function Password() {
   async function loadPassword() {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/1.0/password/" + id + "/" + user.id,
+        "https://vpass-backend.onrender.com/api/1.0/password/" +
+          id +
+          "/" +
+          user.id,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -38,7 +41,7 @@ function Password() {
   const sendOTP = async () => {
     try {
       await axios.post(
-        "http://localhost:3001/api/1.0/otp/" + id + "/" + user.id,
+        "https://vpass-backend.onrender.com/api/1.0/otp/" + id + "/" + user.id,
         {},
         {
           headers: {
@@ -54,7 +57,7 @@ function Password() {
   const verifyOTP = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/1.0/otp/" +
+        "https://vpass-backend.onrender.com/api/1.0/otp/" +
           id +
           "/" +
           user.id +
@@ -79,7 +82,10 @@ function Password() {
   const deletePassword = async () => {
     try {
       await axios.post(
-        "http://localhost:3001/api/1.0/delete/" + id + "/" + user.id,
+        "https://vpass-backend.onrender.com/api/1.0/delete/" +
+          id +
+          "/" +
+          user.id,
         { otp },
         {
           headers: {

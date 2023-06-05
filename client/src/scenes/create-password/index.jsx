@@ -38,7 +38,7 @@ function CreatePass() {
     const { description, password } = values;
     try {
       await axios.post(
-        "http://localhost:3001/api/1.0/users/create-password/" + user.id,
+        "https://vpass-backend.onrender.com/api/1.0/users/create-password/" + user.id,
         {
           description,
           password,
