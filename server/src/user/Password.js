@@ -3,31 +3,24 @@ const sequelize = require("../config/database");
 
 const Model = Sequelize.Model;
 
-class User extends Model {}
+class Password extends Model {}
 
-User.init(
+Password.init(
   {
-    username: {
+    userId: {
       type: Sequelize.STRING,
     },
-    email: {
+    description: {
       type: Sequelize.STRING,
     },
     password: {
       type: Sequelize.STRING,
     },
-    inactive: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: true,
-    },
-    activationToken: {
-      type: Sequelize.STRING,
-    },
   },
   {
     sequelize,
-    modelName: "user",
+    modelName: "password",
   }
 );
 
-module.exports = User;
+module.exports = Password;
