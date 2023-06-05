@@ -12,7 +12,7 @@ function App() {
   const error = useSelector((state) => state.auth.errorMessage);
 
   return (
-    <div className="container-fluid p-0 bg-light">
+    <div id="wrapper" className="container-fluid p-0 bg-light">
       <BrowserRouter>
         <Navbar />
         {error && (

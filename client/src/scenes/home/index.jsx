@@ -21,9 +21,12 @@ function Home() {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await axios.post("https://vpass-backend.onrender.com/api/1.0/auth", {
-        ...values,
-      });
+      const response = await axios.post(
+        "https://vpass-backend.onrender.com/api/1.0/auth",
+        {
+          ...values,
+        }
+      );
       dispatch(userAuth(response.data));
       navigate("/dashboard");
     } catch (err) {
@@ -34,11 +37,11 @@ function Home() {
 
   useEffect(() => {
     dispatch(setErrorMessage(""));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div className="d-flex justify-content-center align-items-center vh-75">
       <Formik
         initialValues={loginValues}
         validationSchema={loginValuesValidation}
