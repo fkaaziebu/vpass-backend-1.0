@@ -9,11 +9,19 @@ import Password from "./scenes/view-password";
 function App() {
   // const isAuth = Boolean(useSelector((state) => state.auth.user));
   const isAuth = Boolean(useSelector((state) => state.auth.user?.token));
+  const error = useSelector((state) => state.auth.errorMessage);
 
   return (
     <div className="container-fluid p-0 bg-light">
       <BrowserRouter>
         <Navbar />
+        {error && (
+          <div className="d-flex align-items-center justify-content-center container-fluid">
+            <p className="text-danger fs-4 w-75 text-center border border-3 p-3">
+              {error}
+            </p>
+          </div>
+        )}
         <Routes>
           <Route
             path="/"

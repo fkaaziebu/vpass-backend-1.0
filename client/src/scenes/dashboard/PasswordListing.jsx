@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { passwordListing } from "../../state/index";
+import { passwordListing, setErrorMessage } from "../../state/index";
 
 function PasswordListing() {
   const passwords = useSelector((state) => state.auth.passwords);
@@ -26,7 +26,7 @@ function PasswordListing() {
     try {
       handleFetchPassword();
     } catch (err) {
-      console.log(err);
+      dispatch(setErrorMessage(err.response.data.message));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -40,7 +40,7 @@ function PasswordListing() {
       <div className="row g-4">
         {passwords.map((password) => {
           return (
-            <div key={password.id} className="col-4">
+            <div key={password.id} className="col-md-6 col-xl-4">
               <Link
                 to={/view-password/ + password.id}
                 className="d-flex justify-content-center align-items-center  shadow p-3 bg-body rounded text-decoration-none text-dark"

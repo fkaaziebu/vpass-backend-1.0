@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import generateString from "./generateString";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setErrorMessage } from "../../state/index";
 
 function CreatePass() {
   // eslint-disable-next-line no-unused-vars
   const [_, setPasswordT] = useState("");
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const createPassValues = {
     description: "",
@@ -49,9 +51,14 @@ function CreatePass() {
       );
       navigate("/dashboard");
     } catch (err) {
-      console.log(err);
+      dispatch(setErrorMessage(err.response.data.message));
     }
   };
+
+  useEffect(() => {
+    dispatch(setErrorMessage(""));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="d-flex justify-content-center align-items-center flex-column">
@@ -66,8 +73,8 @@ function CreatePass() {
         onSubmit={handleSubmit}
       >
         {({ values, handleChange }) => (
-          <Form className="p-5">
-            <fieldset className="d-flex flex-column">
+          <Form className="d-flex justify-content-center container-fluid container-md p-3 p-md-5">
+            <fieldset className="d-flex flex-column w-md-50">
               <div className="mb-1">
                 <label htmlFor="description" className="form-label fs-5">
                   Password Description

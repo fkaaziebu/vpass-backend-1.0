@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 function Welcome() {
   const navigate = useNavigate();
   return (
-    <div className="d-flex justify-content-between bg-white rounded-5 p-4">
-      <div>
+    <div className="d-flex justify-content-between align-items-center bg-white rounded-5 p-4">
+      <div className="d-none d-lg-flex">
         <img className="img-fluid" src={ReactLogo} alt="React Logo" />
       </div>
       <div>

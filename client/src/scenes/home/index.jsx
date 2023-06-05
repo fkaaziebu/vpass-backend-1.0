@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { userAuth } from "../../state/index";
+import { userAuth, setErrorMessage } from "../../state/index";
 
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isValidCredentials, setIsValidCredentials] = useState(true);
 
   const loginValues = { email: "", password: "" };
 
@@ -28,9 +27,15 @@ function Home() {
       dispatch(userAuth(response.data));
       navigate("/dashboard");
     } catch (err) {
-      setIsValidCredentials(false);
+      dispatch(setErrorMessage(err.response.data.message));
+      // console.log(err.data.message)
     }
   };
+
+  useEffect(() => {
+    dispatch(setErrorMessage(""));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
@@ -44,11 +49,6 @@ function Home() {
             <legend className="fs-3 fw-bold mb-4">
               Login to your VPASS account
             </legend>
-            {!isValidCredentials && (
-              <div className="text-danger fs-4">
-                Incorrect credentials, please try again
-              </div>
-            )}
             <div className="mb-1">
               <label htmlFor="email" className="form-label fs-5">
                 Email

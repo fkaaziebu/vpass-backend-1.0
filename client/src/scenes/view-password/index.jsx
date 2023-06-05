@@ -1,36 +1,37 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { setErrorMessage } from "../../state/index";
 
 function Password() {
   const { id } = useParams();
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [password, setPassword] = useState({ password: "*".repeat(31) });
   const [otp, setOtp] = useState("");
-  const [isValidOTP, setIsValidOTP] = useState(true);
-  const [errMessage, setErrMessage] = useState("");
 
   async function loadPassword() {
-    const response = await axios.get(
-      "http://localhost:3001/api/1.0/password/" + id + "/" + user.id,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
-    );
-    const data = await response.data.password;
-    setPassword(data);
+    try {
+      const response = await axios.get(
+        "http://localhost:3001/api/1.0/password/" + id + "/" + user.id,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      const data = await response.data.password;
+      setPassword(data);
+    } catch (err) {
+      dispatch(setErrorMessage(err.response.data.message));
+    }
   }
 
   useEffect(() => {
-    try {
-      loadPassword();
-    } catch (err) {
-      console.log(err);
-    }
+    loadPassword();
+    dispatch(setErrorMessage(""));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -45,10 +46,8 @@ function Password() {
           },
         }
       );
-      setIsValidOTP(true);
     } catch (err) {
-      setIsValidOTP(false);
-      setErrMessage(err.response.data.message);
+      dispatch(setErrorMessage(err.response.data.message));
     }
   };
 
@@ -72,10 +71,8 @@ function Password() {
       const data = await response.data.password;
       setPassword(data);
       setOtp("");
-      setIsValidOTP(true);
     } catch (err) {
-      setIsValidOTP(false);
-      setErrMessage(err.response.data.message);
+      dispatch(setErrorMessage(err.response.data.message));
     }
   };
 
@@ -92,8 +89,7 @@ function Password() {
       );
       navigate("/dashboard");
     } catch (err) {
-      setIsValidOTP(false);
-      setErrMessage(err.response.data.message);
+      dispatch(setErrorMessage(err.response.data.message));
     }
   };
 
@@ -226,9 +222,6 @@ function Password() {
           }}
         >
           <div className="mb-3">
-            {!isValidOTP && (
-              <div className="text-danger fs-4">{errMessage}</div>
-            )}
             <label htmlFor="description" className="form-label fs-2">
               Description
             </label>
