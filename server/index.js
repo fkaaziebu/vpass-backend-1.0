@@ -8,8 +8,8 @@ const addUsers = async () => {
 
   for (let i = 0; i < 10; i++) {
     await User.create({
-      username: `user${i + 1}`,
-      email: `user${i + 1}@mail.com`,
+      username: `frederickaziebu199${i + 1}`,
+      email: `frederickaziebu199${i + 1}@gmail.com`,
       password: hash,
     });
   }

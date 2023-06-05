@@ -1,23 +1,25 @@
 const nodemailer = require("nodemailer");
 const transporter = require("../config/emailTransporter");
+const config = require("config");
 
-const sendAccountActivation = async (email, token) => {
+const sendOTP = async (email, otp) => {
   const info = await transporter.sendMail({
-    from: "My App <info@my-app.com>",
+    ...config.get("mailConfig"),
     to: email,
-    subject: "Account Activation",
+    subject: "OTP code",
+    text: "VPASS OTP",
     html: `
     <div>
-      <h>Please click below link to activate your account</h>
+      <h>Your OTP code</h>
     </div>
     <div>
-      <a href="http://localhost:8080/#/login?token-${token}">Activate</a>
+      Code is ${otp}
     </div>
-    Token is ${token}`,
+`,
   });
   if (process.env.NODE_ENV === "development") {
     console.log("url: " + nodemailer.getTestMessageUrl(info));
   }
 };
 
-module.exports = { sendAccountActivation };
+module.exports = { sendOTP };

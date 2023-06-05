@@ -105,4 +105,69 @@ router.get("/api/1.0/password/:id/:userId", async (req, res, next) => {
   res.send({ password });
 });
 
+router.post("/api/1.0/otp/:id/:userId", async (req, res, next) => {
+  const authenticatedUser = req.authenticatedUser;
+
+  // eslint-disable-next-line eqeqeq
+  if (!authenticatedUser || authenticatedUser.id != req.params.userId) {
+    return next(new ForbiddenException(en.unauthorized_password_load));
+  }
+
+  const email = await UserService.getEmail(req.params.userId);
+
+  try {
+    await UserService.createOTP(email, req.params.userId);
+    return res.send({ message: "OTP created" });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/api/1.0/otp/:id/:userId/verify", async (req, res, next) => {
+  const authenticatedUser = req.authenticatedUser;
+
+  // eslint-disable-next-line eqeqeq
+  if (!authenticatedUser || authenticatedUser.id != req.params.userId) {
+    return next(new ForbiddenException(en.unauthorized_password_load));
+  }
+
+  const { otp } = req.body;
+
+  let password;
+  try {
+    password = await UserService.verifyOTP(
+      req.params.userId,
+      req.params.id,
+      otp
+    );
+    res.send({ message: "OTP verified", password });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/api/1.0/delete/:id/:userId", async (req, res, next) => {
+  const authenticatedUser = req.authenticatedUser;
+
+  // eslint-disable-next-line eqeqeq
+  if (!authenticatedUser || authenticatedUser.id != req.params.userId) {
+    return next(new ForbiddenException(en.unauthorized_password_load));
+  }
+
+  const { otp } = req.body;
+
+  const isVerifiedOTPForDelete = await UserService.verifyOTPForDelete(
+    req.params.userId,
+    req.params.id,
+    otp
+  );
+
+  if (!isVerifiedOTPForDelete) {
+    return next(new ForbiddenException(en.incorrect_otp));
+  }
+
+  await UserService.deletePassword(req.params.userId, req.params.id);
+  return res.send({ message: en.delete_password });
+});
+
 module.exports = router;

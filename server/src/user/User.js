@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("../config/database");
 const Token = require("../auth/Token");
 const Password = require("./Password");
+const OTP = require("./OTP");
 
 const Model = Sequelize.Model;
 
@@ -27,5 +28,6 @@ User.init(
 
 User.hasMany(Token, { onDelete: "cascade", foreignKey: "userId" });
 User.hasMany(Password, { onDelete: "cascade", foreignKey: "userId" });
+User.hasOne(OTP, { onDelete: "cascade", foreignKey: "userId" });
 
 module.exports = User;

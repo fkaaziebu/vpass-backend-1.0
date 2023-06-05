@@ -4,6 +4,8 @@ const User = require("../src/user/User");
 const sequelize = require("../src/config/database");
 const bcrypt = require("bcrypt");
 const Password = require("../src/user/Password");
+const OTP = require("../src/user/OTP");
+const en = require("../locales/en/translation.json");
 
 beforeAll(async () => {
   await sequelize.sync();
@@ -41,9 +43,9 @@ const createPassword = async (pass = validPassword, options = {}) => {
   return await agent.send(pass);
 };
 
-const getPassword = async (options = {}) => {
-  let agent = request(app).get(
-    "/api/1.0/password/" + options.id + "/" + options.userId
+const createOTP = async (options = {}) => {
+  let agent = request(app).post(
+    "/api/1.0/otp/" + options.id + "/" + options.userId
   );
 
   if (options.token) {
@@ -53,8 +55,20 @@ const getPassword = async (options = {}) => {
   return await agent.send();
 };
 
-describe("List Passwords", () => {
-  it("returns 200 ok when Password listing successfull", async () => {
+const verifyOTP = async (otp, options = {}) => {
+  let agent = request(app).post(
+    "/api/1.0/otp/" + options.id + "/" + options.userId + "/" + "verify"
+  );
+
+  if (options.token) {
+    agent.set("Authorization", `Bearer ${options.token}`);
+  }
+
+  return await agent.send({ otp });
+};
+
+describe("Verify OTP", () => {
+  it("returns 200 ok when OTP verification successful", async () => {
     await addUser();
     const auth = await postAuthentication({
       email: "user1@mail.com",
@@ -73,7 +87,17 @@ describe("List Passwords", () => {
       },
     });
 
-    const response = await getPassword({
+    await createOTP({
+      token: auth.body.token,
+      userId: auth.body.id,
+      id: pass.id,
+    });
+
+    const otp = await OTP.findOne({
+      where: { userId: auth.body.id },
+    });
+
+    const response = await verifyOTP(otp.code, {
       token: auth.body.token,
       userId: auth.body.id,
       id: pass.id,
@@ -82,9 +106,8 @@ describe("List Passwords", () => {
     expect(response.status).toBe(200);
   });
 
-  it("returns specific password when successful", async () => {
+  it("returns 403 when otp is not correct", async () => {
     await addUser();
-
     const auth = await postAuthentication({
       email: "user1@mail.com",
       password: "P4ssword",
@@ -102,17 +125,23 @@ describe("List Passwords", () => {
       },
     });
 
-    const response = await getPassword({
+    await createOTP({
       token: auth.body.token,
       userId: auth.body.id,
       id: pass.id,
     });
 
-    expect(response.body.password.description).toBe("Microsoft Password");
-  });
-  it("returns id, userId and description when successful request", async () => {
-    await addUser();
+    const response = await verifyOTP("otp.code", {
+      token: auth.body.token,
+      userId: auth.body.id,
+      id: pass.id,
+    });
 
+    expect(response.status).toBe(403);
+  });
+
+  it("returns message when otp is not correct", async () => {
+    await addUser();
     const auth = await postAuthentication({
       email: "user1@mail.com",
       password: "P4ssword",
@@ -130,7 +159,55 @@ describe("List Passwords", () => {
       },
     });
 
-    const response = await getPassword({
+    await createOTP({
+      token: auth.body.token,
+      userId: auth.body.id,
+      id: pass.id,
+    });
+
+    await OTP.findOne({
+      where: { userId: auth.body.id },
+    });
+
+    const response = await verifyOTP("otp.code", {
+      token: auth.body.token,
+      userId: auth.body.id,
+      id: pass.id,
+    });
+
+    expect(response.body.message).toBe(en.incorrect_otp);
+  });
+
+  it("returns particular password with password field in it when request successful", async () => {
+    await addUser();
+    const auth = await postAuthentication({
+      email: "user1@mail.com",
+      password: "P4ssword",
+    });
+
+    await createPassword(validPassword, {
+      token: auth.body.token,
+      id: auth.body.id,
+      ...validPassword,
+    });
+
+    const pass = await Password.findOne({
+      where: {
+        userId: auth.body.id,
+      },
+    });
+
+    await createOTP({
+      token: auth.body.token,
+      userId: auth.body.id,
+      id: pass.id,
+    });
+
+    const otp = await OTP.findOne({
+      where: { userId: auth.body.id },
+    });
+
+    const response = await verifyOTP(otp.code, {
       token: auth.body.token,
       userId: auth.body.id,
       id: pass.id,
@@ -140,6 +217,7 @@ describe("List Passwords", () => {
       "id",
       "userId",
       "description",
+      "password",
     ]);
   });
 });

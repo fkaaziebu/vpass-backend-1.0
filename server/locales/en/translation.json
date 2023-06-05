@@ -23,5 +23,7 @@
   "description_null": "Password description cannot be null",
   "description_size": "Password description must be greater than 2 and less than 64 characters",
   "spassword_size": "Password must be greater than 3 and less than 33 characters",
-  "unauthorized_password_load": "You are not authorized to load Passwords"
+  "unauthorized_password_load": "You are not authorized to load Passwords",
+  "incorrect_otp": "OTP is not correct",
+  "delete_password": "Password deleted successfully"
 }
