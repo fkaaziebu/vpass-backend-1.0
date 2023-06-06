@@ -59,6 +59,7 @@ function Home() {
       );
       dispatch(userAuth(response.data));
       navigate("/");
+      setIsLogin(true);
     } catch (err) {
       dispatch(setErrorMessage(err.response.data.message));
       // console.log(err.data.message)
@@ -80,7 +81,7 @@ function Home() {
         onSubmit={isLogin ? handleLoginSubmit : handleRegisterSubmit}
       >
         <Form>
-          <fieldset className="d-flex flex-column">
+          <fieldset className="d-flex flex-column p-4">
             {isLogin && (
               <>
                 <legend className="fs-3 fw-bold mb-4">
