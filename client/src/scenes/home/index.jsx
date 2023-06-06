@@ -190,14 +190,14 @@ function Home() {
             <div className="mx-2 my-4">
               {isLogin && (
                 <a className="" href="#home" onClick={() => setIsLogin(false)}>
-                  Don't have an account yet?, Click this button to create a
-                  VPASS account
+                  Don't have an account yet?, Click this link to create a VPASS
+                  account
                 </a>
               )}
               {!isLogin && (
                 <a className="" href="#home" onClick={() => setIsLogin(true)}>
-                  Already have a VPASS account?, Click this button to login to
-                  your account
+                  Already have an account?, Click this link to login to your
+                  VPASS account
                 </a>
               )}
             </div>
