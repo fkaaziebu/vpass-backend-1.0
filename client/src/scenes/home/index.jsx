@@ -58,7 +58,7 @@ function Home() {
         }
       );
       dispatch(userAuth(response.data));
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       dispatch(setErrorMessage(err.response.data.message));
       // console.log(err.data.message)
