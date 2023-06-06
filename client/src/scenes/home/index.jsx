@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -9,8 +9,14 @@ import { userAuth, setErrorMessage } from "../../state/index";
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLogin, setIsLogin] = useState(true);
 
   const loginValues = { email: "", password: "" };
+  const registerValues = {
+    username: "",
+    email: "",
+    password: "",
+  };
 
   const loginValuesValidation = Yup.object().shape({
     email: Yup.string()
@@ -19,10 +25,34 @@ function Home() {
     password: Yup.string().required("Password is required"),
   });
 
-  const handleSubmit = async (values) => {
+  const registerValuesValidation = Yup.object().shape({
+    username: Yup.string().required("Username is required"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email required"),
+    password: Yup.string().required("Password is required"),
+  });
+
+  const handleLoginSubmit = async (values) => {
     try {
       const response = await axios.post(
         "https://vpass-backend.onrender.com/api/1.0/auth",
+        {
+          ...values,
+        }
+      );
+      dispatch(userAuth(response.data));
+      navigate("/dashboard");
+    } catch (err) {
+      dispatch(setErrorMessage(err.response.data.message));
+      // console.log(err.data.message)
+    }
+  };
+
+  const handleRegisterSubmit = async (values) => {
+    try {
+      const response = await axios.post(
+        "https://vpass-backend.onrender.com/api/1.0/users",
         {
           ...values,
         }
@@ -43,47 +73,132 @@ function Home() {
   return (
     <div className="d-flex justify-content-center align-items-center vh-75">
       <Formik
-        initialValues={loginValues}
-        validationSchema={loginValuesValidation}
-        onSubmit={handleSubmit}
+        initialValues={isLogin ? loginValues : registerValues}
+        validationSchema={
+          isLogin ? loginValuesValidation : registerValuesValidation
+        }
+        onSubmit={isLogin ? handleLoginSubmit : handleRegisterSubmit}
       >
         <Form>
           <fieldset className="d-flex flex-column">
-            <legend className="fs-3 fw-bold mb-4">
-              Login to your VPASS account
-            </legend>
-            <div className="mb-1">
-              <label htmlFor="email" className="form-label fs-5">
-                Email
-              </label>
-              <Field name="email" type="email" className="form-control fs-3" />
-              <ErrorMessage
-                component="div"
-                className="text-danger"
-                name="email"
-              />
-            </div>
+            {isLogin && (
+              <>
+                <legend className="fs-3 fw-bold mb-4">
+                  Login to your VPASS account
+                </legend>
+                <div className="mb-1">
+                  <label htmlFor="email" className="form-label fs-5">
+                    Email
+                  </label>
+                  <Field
+                    name="email"
+                    type="email"
+                    className="form-control fs-3"
+                  />
+                  <ErrorMessage
+                    component="div"
+                    className="text-danger"
+                    name="email"
+                  />
+                </div>
 
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label fs-5">
-                Password
-              </label>
-              <Field
-                name="password"
-                type="password"
-                className="form-control fs-3"
-              />
-              <ErrorMessage
-                component="div"
-                className="text-danger"
-                name="password"
-              />
-            </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label fs-5">
+                    Password
+                  </label>
+                  <Field
+                    name="password"
+                    type="password"
+                    className="form-control fs-3"
+                  />
+                  <ErrorMessage
+                    component="div"
+                    className="text-danger"
+                    name="password"
+                  />
+                </div>
 
-            <div className="d-grid mt-3">
-              <button type="submit" className="btn btn-primary fs-4">
-                Login
-              </button>
+                <div className="d-grid mt-3">
+                  <button type="submit" className="btn btn-primary fs-4">
+                    Login
+                  </button>
+                </div>
+              </>
+            )}
+
+            {!isLogin && (
+              <>
+                <legend className="fs-3 fw-bold mb-4">
+                  Create a VPASS account
+                </legend>
+                <div className="mb-1">
+                  <label htmlFor="username" className="form-label fs-5">
+                    Username
+                  </label>
+                  <Field
+                    name="username"
+                    type="username"
+                    className="form-control fs-3"
+                  />
+                  <ErrorMessage
+                    component="div"
+                    className="text-danger"
+                    name="username"
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label fs-5">
+                    Email
+                  </label>
+                  <Field
+                    name="email"
+                    type="email"
+                    className="form-control fs-3"
+                  />
+                  <ErrorMessage
+                    component="div"
+                    className="text-danger"
+                    name="email"
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label fs-5">
+                    Password
+                  </label>
+                  <Field
+                    name="password"
+                    type="password"
+                    className="form-control fs-3"
+                  />
+                  <ErrorMessage
+                    component="div"
+                    className="text-danger"
+                    name="password"
+                  />
+                </div>
+
+                <div className="d-grid mt-3">
+                  <button type="submit" className="btn btn-primary fs-4">
+                    Create Account
+                  </button>
+                </div>
+              </>
+            )}
+            <div className="mx-2 my-4">
+              {isLogin && (
+                <a className="" href="#home" onClick={() => setIsLogin(false)}>
+                  Don't have an account yet?, Click this button to create a
+                  VPASS account
+                </a>
+              )}
+              {!isLogin && (
+                <a className="" href="#home" onClick={() => setIsLogin(true)}>
+                  Already have a VPASS account?, Click this button to login to
+                  your account
+                </a>
+              )}
             </div>
           </fieldset>
         </Form>
