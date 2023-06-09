@@ -3,25 +3,36 @@ import Home from "./scenes/home/index";
 import Dashboard from "./scenes/dashboard/index";
 import Navbar from "./scenes/global/Navbar";
 import CreatePass from "./scenes/create-password";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Password from "./scenes/view-password";
+import { setErrorMessage } from "../src/state/index";
 
 function App() {
   // const isAuth = Boolean(useSelector((state) => state.auth.user));
   const isAuth = Boolean(useSelector((state) => state.auth.user?.token));
   const error = useSelector((state) => state.auth.errorMessage);
+  const dispatch = useDispatch();
 
   return (
     <div id="wrapper" className="container-fluid p-0 bg-light">
+      {error && (
+        <div
+          className="alert alert-danger alert-dismissible fade show fs-5 p-2 text-center container-fluid"
+          role="alert"
+        >
+          {error}
+          <button
+            type="button"
+            class="btn-close p-2"
+            aria-label="Close"
+            onClick={() => {
+              dispatch(setErrorMessage(""));
+            }}
+          ></button>
+        </div>
+      )}
       <BrowserRouter>
         <Navbar />
-        {error && (
-          <div className="d-flex align-items-center justify-content-center container-fluid">
-            <p className="text-danger fs-4 w-75 text-center border border-3 p-3">
-              {error}
-            </p>
-          </div>
-        )}
         <Routes>
           <Route
             path="/"
