@@ -10,6 +10,7 @@ function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loginValues = { email: "", password: "" };
   const registerValues = {
@@ -34,6 +35,7 @@ function Home() {
   });
 
   const handleLoginSubmit = async (values) => {
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "https://vpass-backend.onrender.com/api/1.0/auth",
@@ -47,9 +49,11 @@ function Home() {
       dispatch(setErrorMessage(err.response.data.message));
       // console.log(err.data.message)
     }
+    setIsLoading(false);
   };
 
   const handleRegisterSubmit = async (values) => {
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "https://vpass-backend.onrender.com/api/1.0/users",
@@ -64,6 +68,7 @@ function Home() {
       dispatch(setErrorMessage(err.response.data.message));
       // console.log(err.data.message)
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -121,7 +126,13 @@ function Home() {
 
                 <div className="d-grid mt-3">
                   <button type="submit" className="btn btn-primary fs-4">
-                    Login
+                    {isLoading ? (
+                      <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    ) : (
+                      "Login"
+                    )}
                   </button>
                 </div>
               </>
@@ -182,7 +193,13 @@ function Home() {
 
                 <div className="d-grid mt-3">
                   <button type="submit" className="btn btn-primary fs-4">
-                    Create Account
+                    {isLoading ? (
+                      <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    ) : (
+                      "Create Account"
+                    )}
                   </button>
                 </div>
               </>

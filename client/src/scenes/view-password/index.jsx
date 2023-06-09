@@ -11,8 +11,10 @@ function Password() {
   const dispatch = useDispatch();
   const [password, setPassword] = useState({ password: "*".repeat(31) });
   const [otp, setOtp] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function loadPassword() {
+    setIsLoading(true);
     try {
       const response = await axios.get(
         "https://vpass-backend.onrender.com/api/1.0/password/" +
@@ -30,6 +32,7 @@ function Password() {
     } catch (err) {
       dispatch(setErrorMessage(err.response.data.message));
     }
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -55,6 +58,7 @@ function Password() {
   };
 
   const verifyOTP = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "https://vpass-backend.onrender.com/api/1.0/otp/" +
@@ -77,9 +81,11 @@ function Password() {
     } catch (err) {
       dispatch(setErrorMessage(err.response.data.message));
     }
+    setIsLoading(false);
   };
 
   const deletePassword = async () => {
+    setIsLoading(true);
     try {
       await axios.post(
         "https://vpass-backend.onrender.com/api/1.0/delete/" +
@@ -97,6 +103,7 @@ function Password() {
     } catch (err) {
       dispatch(setErrorMessage(err.response.data.message));
     }
+    setIsLoading(false);
   };
 
   return (
@@ -258,7 +265,13 @@ function Password() {
               data-bs-target="#exampleModal"
               className="btn btn-info mt-3 fs-4"
             >
-              View Password
+              {isLoading ? (
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              ) : (
+                "View Password"
+              )}
             </button>
           </div>
           <div className="d-grid mt-3">
@@ -268,7 +281,13 @@ function Password() {
               data-bs-target="#exampleModal2"
               className="btn btn-danger mt-3 fs-4"
             >
-              Delete Password
+              {isLoading ? (
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              ) : (
+                "Delete Password"
+              )}
             </button>
           </div>
         </form>

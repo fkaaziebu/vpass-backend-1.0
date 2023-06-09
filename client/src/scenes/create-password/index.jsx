@@ -10,6 +10,7 @@ import { setErrorMessage } from "../../state/index";
 function CreatePass() {
   // eslint-disable-next-line no-unused-vars
   const [_, setPasswordT] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,9 +37,11 @@ function CreatePass() {
 
   const handleSubmit = async (values) => {
     const { description, password } = values;
+    setIsLoading(true);
     try {
       await axios.post(
-        "https://vpass-backend.onrender.com/api/1.0/users/create-password/" + user.id,
+        "https://vpass-backend.onrender.com/api/1.0/users/create-password/" +
+          user.id,
         {
           description,
           password,
@@ -53,6 +56,7 @@ function CreatePass() {
     } catch (err) {
       dispatch(setErrorMessage(err.response.data.message));
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -196,7 +200,13 @@ function CreatePass() {
 
               <div className="d-grid mt-3">
                 <button type="submit" className="btn btn-primary fs-4">
-                  Create
+                  {isLoading ? (
+                    <div className="spinner-border" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    "Create"
+                  )}
                 </button>
               </div>
             </fieldset>
