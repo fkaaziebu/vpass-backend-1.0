@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { passwordListing, setErrorMessage } from "../../state/index";
@@ -8,6 +8,7 @@ function PasswordListing() {
   const passwords = useSelector((state) => state.auth.passwords);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   async function handleFetchPassword() {
     const response = await axios.get(
@@ -26,7 +27,8 @@ function PasswordListing() {
     try {
       handleFetchPassword();
     } catch (err) {
-      dispatch(setErrorMessage(err.response.data.message));
+      dispatch(setErrorMessage({ message: err.response.data.message }));
+      navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

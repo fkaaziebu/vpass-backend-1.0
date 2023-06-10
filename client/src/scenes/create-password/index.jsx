@@ -54,13 +54,14 @@ function CreatePass() {
       );
       navigate("/dashboard");
     } catch (err) {
-      dispatch(setErrorMessage(err.response.data.message));
+      dispatch(setErrorMessage({ message: err.response.data.message }));
+      navigate("/");
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
-    dispatch(setErrorMessage(""));
+    dispatch(setErrorMessage({}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

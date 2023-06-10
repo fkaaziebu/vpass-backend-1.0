@@ -128,7 +128,7 @@ router.post("/api/1.0/otp/:id/:userId/verify", async (req, res, next) => {
 
   // eslint-disable-next-line eqeqeq
   if (!authenticatedUser || authenticatedUser.id != req.params.userId) {
-    return next(new ForbiddenException(en.unauthorized_password_load));
+    return next(new ForbiddenException(en.unauthorized_otp_verification));
   }
 
   const { otp } = req.body;
@@ -151,7 +151,7 @@ router.post("/api/1.0/delete/:id/:userId", async (req, res, next) => {
 
   // eslint-disable-next-line eqeqeq
   if (!authenticatedUser || authenticatedUser.id != req.params.userId) {
-    return next(new ForbiddenException(en.unauthorized_password_load));
+    return next(new ForbiddenException(en.unauthorized_password_delete));
   }
 
   const { otp } = req.body;

@@ -1,14 +1,14 @@
 {
   "username_null": "Username cannot be null",
-  "username_size": "Must have min 4 and max 32 characters",
+  "username_size": "Username must have min 4 and max 32 characters",
   "email_null": "Email cannot be null",
   "email_invalid": "Email is not valid",
   "password_null": "Password cannot be null",
   "password_size": "Password must be at least 6 characters",
-  "password_pattern": "Password must be at least 1 lowercase letter and 1 number",
+  "password_pattern": "Password must atleast contain 1 uppercase, 1 lowercase and a number",
   "email_inuse": "Email in use",
   "user_create_success": "User created",
-  "email_failure": "Email Failure",
+  "email_failure": "Email sending failed",
   "account_activation_failure": "This is account is either active or the token is invalid",
   "account_activation_success": "Account is activated",
   "validation_failure": "Validation Failure",
@@ -24,6 +24,8 @@
   "description_size": "Password description must be greater than 2 and less than 64 characters",
   "spassword_size": "Password must be greater than 3 and less than 33 characters",
   "unauthorized_password_load": "You are not authorized to load Passwords",
+  "unauthorized_password_delete": "You are not authorized to delete this Password",
+  "unauthorized_otp_verification": "You are not authorized to verify this otp",
   "incorrect_otp": "OTP is not correct",
   "delete_password": "Password deleted successfully"
 }

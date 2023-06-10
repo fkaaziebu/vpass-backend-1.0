@@ -7,7 +7,7 @@ import { setErrorMessage } from "../../state/index";
 function Dashboard() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setErrorMessage(""));
+    dispatch(setErrorMessage({}));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

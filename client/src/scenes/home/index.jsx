@@ -65,14 +65,14 @@ function Home() {
       navigate("/");
       setIsLogin(true);
     } catch (err) {
-      dispatch(setErrorMessage(err.response.data.message));
+      dispatch(setErrorMessage(err.response.data.validationErrors));
       // console.log(err.data.message)
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
-    dispatch(setErrorMessage(""));
+    dispatch(setErrorMessage({}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

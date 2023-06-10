@@ -30,7 +30,8 @@ function Password() {
       const data = await response.data.password;
       setPassword(data);
     } catch (err) {
-      dispatch(setErrorMessage(err.response.data.message));
+      dispatch(setErrorMessage({ message: err.response.data.message }));
+      navigate("/");
     }
     setIsLoading(false);
   }
@@ -53,7 +54,7 @@ function Password() {
         }
       );
     } catch (err) {
-      dispatch(setErrorMessage(err.response.data.message));
+      dispatch(setErrorMessage({ message: err.response.data.message }));
     }
   };
 
@@ -79,7 +80,7 @@ function Password() {
       setPassword(data);
       setOtp("");
     } catch (err) {
-      dispatch(setErrorMessage(err.response.data.message));
+      dispatch(setErrorMessage({ message: err.response.data.message }));
     }
     setIsLoading(false);
   };
@@ -101,7 +102,7 @@ function Password() {
       );
       navigate("/dashboard");
     } catch (err) {
-      dispatch(setErrorMessage(err.response.data.message));
+      dispatch(setErrorMessage({ message: err.response.data.message }));
     }
     setIsLoading(false);
   };
