@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { setErrorMessage } from "../../state/index";
+import { setErrorMessage, setSuccessMessage } from "../../state/index";
 
 function Password() {
   const { id } = useParams();
@@ -53,6 +53,7 @@ function Password() {
           },
         }
       );
+      dispatch(setSuccessMessage({ message: "OTP code sent successfully" }));
     } catch (err) {
       dispatch(setErrorMessage({ message: err.response.data.message }));
     }
@@ -79,6 +80,7 @@ function Password() {
       const data = await response.data.password;
       setPassword(data);
       setOtp("");
+      dispatch(setSuccessMessage({ message: "OTP code verified" }));
     } catch (err) {
       dispatch(setErrorMessage({ message: err.response.data.message }));
     }
@@ -101,6 +103,7 @@ function Password() {
         }
       );
       navigate("/dashboard");
+      dispatch(setSuccessMessage({ message: "Password Deleted Successfully" }));
     } catch (err) {
       dispatch(setErrorMessage({ message: err.response.data.message }));
     }

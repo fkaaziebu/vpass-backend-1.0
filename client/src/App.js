@@ -5,11 +5,12 @@ import Navbar from "./scenes/global/Navbar";
 import CreatePass from "./scenes/create-password";
 import { useDispatch, useSelector } from "react-redux";
 import Password from "./scenes/view-password";
-import { setErrorMessage } from "../src/state/index";
+import { setErrorMessage, setSuccessMessage } from "../src/state/index";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.auth.user?.token));
   const errors = useSelector((state) => state.auth.errorMessage);
+  const success = useSelector((state) => state.auth.successMessage);
   const dispatch = useDispatch();
 
   return (
@@ -17,7 +18,7 @@ function App() {
       {Object.values(errors).map((err) => {
         return (
           <div
-            className="alert alert-danger alert-dismissible fade show fs-5 p-2 text-center container-fluid"
+            className="alert alert-danger alert-dismissible fade show fs-5 p-2 m-0 text-center container-fluid"
             role="alert"
           >
             {err}
@@ -27,6 +28,24 @@ function App() {
               aria-label="Close"
               onClick={() => {
                 dispatch(setErrorMessage({}));
+              }}
+            ></button>
+          </div>
+        );
+      })}
+      {Object.values(success).map((scs) => {
+        return (
+          <div
+            className="alert alert-success alert-dismissible fade show fs-5 p-2 text-center container-fluid"
+            role="alert"
+          >
+            {scs}
+            <button
+              type="button"
+              class="btn-close p-2"
+              aria-label="Close"
+              onClick={() => {
+                dispatch(setSuccessMessage({}));
               }}
             ></button>
           </div>

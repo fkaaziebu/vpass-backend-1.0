@@ -4,7 +4,11 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { userAuth, setErrorMessage } from "../../state/index";
+import {
+  userAuth,
+  setErrorMessage,
+  setSuccessMessage,
+} from "../../state/index";
 
 function Home() {
   const navigate = useNavigate();
@@ -45,8 +49,10 @@ function Home() {
       );
       dispatch(userAuth(response.data));
       navigate("/dashboard");
+      dispatch(setSuccessMessage({ message: "Login Successful" }));
+      dispatch(setErrorMessage({}));
     } catch (err) {
-      dispatch(setErrorMessage(err.response.data.message));
+      dispatch(setErrorMessage({ message: err.response.data.message }));
       // console.log(err.data.message)
     }
     setIsLoading(false);
@@ -62,6 +68,12 @@ function Home() {
         }
       );
       dispatch(userAuth(response.data));
+      dispatch(
+        setSuccessMessage({
+          message:
+            "User created successfully, please login with your email and password",
+        })
+      );
       navigate("/");
       setIsLogin(true);
     } catch (err) {
@@ -73,6 +85,7 @@ function Home() {
 
   useEffect(() => {
     dispatch(setErrorMessage({}));
+    dispatch(setSuccessMessage({}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

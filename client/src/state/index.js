@@ -4,6 +4,7 @@ const initialState = {
   user: {},
   passwords: [],
   errorMessage: {},
+  successMessage: {},
 };
 
 export const authSlice = createSlice({
@@ -19,9 +20,12 @@ export const authSlice = createSlice({
     setErrorMessage: (state, action) => {
       state.errorMessage = { ...action.payload };
     },
+    setSuccessMessage: (state, action) => {
+      state.successMessage = { ...action.payload };
+    },
   },
 });
 
-export const { userAuth, passwordListing, setErrorMessage } = authSlice.actions;
+export const { userAuth, passwordListing, setErrorMessage, setSuccessMessage } = authSlice.actions;
 
 export default authSlice.reducer;

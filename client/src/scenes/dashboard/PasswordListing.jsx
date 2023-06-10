@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { passwordListing, setErrorMessage } from "../../state/index";
+import {
+  passwordListing,
+  setErrorMessage,
+  setSuccessMessage,
+} from "../../state/index";
 
 function PasswordListing() {
   const passwords = useSelector((state) => state.auth.passwords);
@@ -26,8 +30,10 @@ function PasswordListing() {
   useEffect(() => {
     try {
       handleFetchPassword();
+      dispatch(setErrorMessage({}));
     } catch (err) {
       dispatch(setErrorMessage({ message: err.response.data.message }));
+      dispatch(setSuccessMessage({}));
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

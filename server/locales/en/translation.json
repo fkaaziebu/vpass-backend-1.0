@@ -6,7 +6,7 @@
   "password_null": "Password cannot be null",
   "password_size": "Password must be at least 6 characters",
   "password_pattern": "Password must atleast contain 1 uppercase, 1 lowercase and a number",
-  "email_inuse": "Email in use",
+  "email_inuse": "This email is already taken, please choose a different one",
   "user_create_success": "User created",
   "email_failure": "Email sending failed",
   "account_activation_failure": "This is account is either active or the token is invalid",

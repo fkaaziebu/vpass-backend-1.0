@@ -5,7 +5,7 @@ import generateString from "./generateString";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setErrorMessage } from "../../state/index";
+import { setErrorMessage, setSuccessMessage } from "../../state/index";
 
 function CreatePass() {
   // eslint-disable-next-line no-unused-vars
@@ -53,6 +53,7 @@ function CreatePass() {
         }
       );
       navigate("/dashboard");
+      dispatch(setSuccessMessage({ message: "Password created successfully" }));
     } catch (err) {
       dispatch(setErrorMessage({ message: err.response.data.message }));
       navigate("/");
@@ -62,6 +63,8 @@ function CreatePass() {
 
   useEffect(() => {
     dispatch(setErrorMessage({}));
+    dispatch(setSuccessMessage({}));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
