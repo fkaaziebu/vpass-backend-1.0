@@ -18,6 +18,16 @@
   height: 75vh;
 }
 
+.w-15 {
+  width: 10%;
+}
+
+.error-component {
+  position: fixed;
+  bottom: 40px;
+  right: 10px;
+}
+
 @media screen and (min-width: 769px) {
   .w-md-50 {
     width: 50%;

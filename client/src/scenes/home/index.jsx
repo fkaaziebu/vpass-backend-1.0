@@ -9,6 +9,7 @@ import {
   setErrorMessage,
   setSuccessMessage,
 } from "../../state/index";
+import vpassLogo from "../../images/vpass-logo.png";
 
 function Home() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function Home() {
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   };
 
   const loginValuesValidation = Yup.object().shape({
@@ -35,7 +37,15 @@ function Home() {
     email: Yup.string()
       .email("Invalid email address")
       .required("Email required"),
-    password: Yup.string().required("Password is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .matches(/^(?=.*[a-z])/, " Must Contain One Lowercase Character")
+      .matches(/^(?=.*[A-Z])/, "  Must Contain One Uppercase Character")
+      .matches(/^(?=.*[0-9])/, "  Must Contain One Number Character")
+      .matches(/^.{6,}$/, "  Must be 6 or more characters"),
+    confirmPassword: Yup.string()
+      .required("Confirm Password field is required")
+      .oneOf([Yup.ref("password")], "Passwords do not match"),
   });
 
   const handleLoginSubmit = async (values) => {
@@ -90,7 +100,7 @@ function Home() {
   }, []);
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-75">
+    <div className="d-flex justify-content-center align-items-center">
       <Formik
         initialValues={isLogin ? loginValues : registerValues}
         validationSchema={
@@ -99,21 +109,26 @@ function Home() {
         onSubmit={isLogin ? handleLoginSubmit : handleRegisterSubmit}
       >
         <Form>
-          <fieldset className="d-flex flex-column p-4">
+          <fieldset className="d-flex flex-column p-4 m-3 border border-1 rounded-5">
             {isLogin && (
               <>
-                <legend className="fs-3 fw-bold mb-4">
-                  Login to your VPASS account
+                <legend className="fs-3 fw-bold mb-4 text-center">
+                  <img
+                    className="img-fluid w-25 border rounded-5 mb-5"
+                    src={vpassLogo}
+                    alt="VPASS logo"
+                  />
+                  <div className="fs-4 fw-normal">Sign in to use VPASS</div>
                 </legend>
-                <div className="mb-1">
-                  <label htmlFor="email" className="form-label fs-5">
-                    Email
-                  </label>
+                <div className="form-floating mb-3">
                   <Field
                     name="email"
                     type="email"
-                    className="form-control fs-3"
+                    id="email"
+                    className="form-control fs-3 border border-1"
+                    placeholder="name@example.com"
                   />
+                  <label htmlFor="email">Email</label>
                   <ErrorMessage
                     component="div"
                     className="text-danger"
@@ -121,15 +136,15 @@ function Home() {
                   />
                 </div>
 
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label fs-5">
-                    Password
-                  </label>
+                <div className="form-floating mb-3 mt-3">
                   <Field
                     name="password"
                     type="password"
-                    className="form-control fs-3"
+                    id="password"
+                    className="form-control fs-3 border border-1"
+                    placeholder="Uppercase-lowercase-number"
                   />
+                  <label htmlFor="password">Password</label>
                   <ErrorMessage
                     component="div"
                     className="text-danger"
@@ -153,18 +168,26 @@ function Home() {
 
             {!isLogin && (
               <>
-                <legend className="fs-3 fw-bold mb-4">
-                  Create a VPASS account
+                <legend className="fs-3 fw-bold mb-4 text-center">
+                  <img
+                    className="img-fluid w-25 border rounded-5 mb-5"
+                    src={vpassLogo}
+                    alt="VPASS logo"
+                  />
+                  <div className="fs-4 fw-normal">
+                    Sign-up for a VPASS account
+                  </div>
                 </legend>
-                <div className="mb-1">
-                  <label htmlFor="username" className="form-label fs-5">
-                    Username
-                  </label>
+                <div className="form-floating mb-3">
                   <Field
                     name="username"
                     type="username"
-                    className="form-control fs-3"
+                    className="form-control fs-3 border border-1"
+                    placeholder="John Doe"
                   />
+                  <label htmlFor="username" className="form-label fs-5">
+                    Username
+                  </label>
                   <ErrorMessage
                     component="div"
                     className="text-danger"
@@ -172,15 +195,16 @@ function Home() {
                   />
                 </div>
 
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label fs-5">
-                    Email
-                  </label>
+                <div className="form-floating mb-3 mt-3">
                   <Field
                     name="email"
                     type="email"
-                    className="form-control fs-3"
+                    className="form-control fs-3 border border-1"
+                    placeholder="name@example.com.gh"
                   />
+                  <label htmlFor="email" className="form-label fs-5">
+                    Email
+                  </label>
                   <ErrorMessage
                     component="div"
                     className="text-danger"
@@ -188,19 +212,36 @@ function Home() {
                   />
                 </div>
 
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label fs-5">
-                    Password
-                  </label>
+                <div className="form-floating mb-3 mt-3">
                   <Field
                     name="password"
                     type="password"
-                    className="form-control fs-3"
+                    className="form-control fs-3 border border-1"
+                    placeholder="Uppercase-lowercase-number"
                   />
+                  <label htmlFor="password" className="form-label fs-5">
+                    Password
+                  </label>
                   <ErrorMessage
                     component="div"
                     className="text-danger"
                     name="password"
+                  />
+                </div>
+                <div className="form-floating mb-3 mt-3">
+                  <Field
+                    name="confirmPassword"
+                    type="password"
+                    className="form-control fs-3 border border-1"
+                    placeholder="Uppercase-lowercase-number"
+                  />
+                  <label htmlFor="confirmPassword" className="form-label fs-5">
+                    Confirm Password
+                  </label>
+                  <ErrorMessage
+                    component="div"
+                    className="text-danger"
+                    name="confirmPassword"
                   />
                 </div>
 
@@ -220,14 +261,12 @@ function Home() {
             <div className="mx-2 my-4">
               {isLogin && (
                 <a className="" href="#home" onClick={() => setIsLogin(false)}>
-                  Don't have an account yet?, Click this link to create a VPASS
-                  account
+                  Don't have an account?, Sign-up
                 </a>
               )}
               {!isLogin && (
                 <a className="" href="#home" onClick={() => setIsLogin(true)}>
-                  Already have an account?, Click this link to login to your
-                  VPASS account
+                  Already have an account?, Login
                 </a>
               )}
             </div>

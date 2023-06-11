@@ -15,42 +15,46 @@ function App() {
 
   return (
     <div id="wrapper" className="container-fluid p-0 bg-light">
-      {Object.values(errors).map((err) => {
-        return (
-          <div
-            className="alert alert-danger alert-dismissible fade show fs-5 p-2 m-0 text-center container-fluid"
-            role="alert"
-          >
-            {err}
-            <button
-              type="button"
-              class="btn-close p-2"
-              aria-label="Close"
-              onClick={() => {
-                dispatch(setErrorMessage({}));
-              }}
-            ></button>
-          </div>
-        );
-      })}
-      {Object.values(success).map((scs) => {
-        return (
-          <div
-            className="alert alert-success alert-dismissible fade show fs-5 p-2 text-center container-fluid"
-            role="alert"
-          >
-            {scs}
-            <button
-              type="button"
-              class="btn-close p-2"
-              aria-label="Close"
-              onClick={() => {
-                dispatch(setSuccessMessage({}));
-              }}
-            ></button>
-          </div>
-        );
-      })}
+      <div className="error-component d-flex align-items-center justify-content-end">
+        {Object.values(errors).map((err) => {
+          return (
+            <div
+              className="alert alert-danger alert-dismissible fade show m-0"
+              role="alert"
+              key={err}
+            >
+              <p className="m-0 me-5">{err}</p>
+              <button
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                onClick={() => {
+                  dispatch(setErrorMessage({}));
+                }}
+              ></button>
+            </div>
+          );
+        })}
+        {Object.values(success).map((scs) => {
+          return (
+            <div
+              className="alert alert-success alert-dismissible fade show m-0"
+              role="alert"
+              key={scs}
+            >
+              <p className="m-0 me-5">{scs}</p>
+              <button
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                onClick={() => {
+                  dispatch(setSuccessMessage({}));
+                }}
+              ></button>
+            </div>
+          );
+        })}
+      </div>
       <BrowserRouter>
         <Navbar />
         <Routes>
