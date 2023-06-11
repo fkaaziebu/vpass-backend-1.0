@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div id="wrapper" className="container-fluid p-0 bg-light">
-      <div className="error-component d-flex align-items-center justify-content-end">
+      <div className="error-component d-flex flex-column align-items-end justify-content-center">
         {Object.values(errors).map((err) => {
           return (
             <div
