@@ -11,7 +11,7 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-light p-0">
       <div className="container-fluid">
-        <Link className="d-flex align-items-center navbar-brand fw-bold fs-1" to="/">
+        <Link className="d-flex align-items-center navbar-brand m-0 mw-50" to="/">
           <img
             className="img-fluid w-15 border rounded-pill me-3"
             src={VpassLogo}
