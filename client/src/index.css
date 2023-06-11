@@ -24,8 +24,8 @@
 
 .error-component {
   position: fixed;
-  bottom: 40px;
-  right: 10px;
+  bottom: 1%;
+  right: 0.5%;
 }
 
 @media screen and (min-width: 769px) {
