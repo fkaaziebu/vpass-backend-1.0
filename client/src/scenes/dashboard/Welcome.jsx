@@ -1,10 +1,8 @@
 import React from "react";
 import ReactLogo from "../../images/logo192.png";
-import { useNavigate } from "react-router-dom";
 import CreatePass from "../create-password";
 
 function Welcome() {
-  const navigate = useNavigate();
   return (
     <div className="d-flex justify-content-between align-items-center bg-white rounded-5 p-4">
       <div className="d-none d-lg-flex">
@@ -38,20 +36,8 @@ function Welcome() {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-3" id="exampleModalLabel">
-                Create Password
-              </h1>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
+          
             <CreatePass />
-          </div>
         </div>
       </div>
     </div>

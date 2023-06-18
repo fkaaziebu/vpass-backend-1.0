@@ -28,7 +28,7 @@ function ViewModal({ passId }) {
         }
       );
 
-      const data = await response.data.password;
+      const data = response?.data?.password;
       setPassword(data);
       setOtp("");
       dispatch(setSuccessMessage({ message: "OTP code verified" }));

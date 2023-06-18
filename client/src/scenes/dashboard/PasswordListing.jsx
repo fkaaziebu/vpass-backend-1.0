@@ -69,11 +69,11 @@ function PasswordListing() {
     {
       field: "description",
       headerName: "Description",
-      flex: 5,
-      cellClassName: "description-column--cell",
+      flex: 2,
     },
+    { field: "createdAt", headerName: "Date Created", flex: 2 },
     {
-      field: "access",
+      field: "view-delete",
       headerName: "View / Delete",
       headerAlign: "center",
       align: "center",
@@ -146,6 +146,7 @@ function PasswordListing() {
       <div className="line-div my-5" />
       <Box
         m="0"
+        height="75vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -169,7 +170,17 @@ function PasswordListing() {
           },
         }}
       >
-        <DataGrid rows={passwords} columns={columns} />
+        <DataGrid
+          rows={passwords}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
+            },
+          }}
+        />
       </Box>
 
       {/* View Modal */}
