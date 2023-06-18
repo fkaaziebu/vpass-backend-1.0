@@ -56,7 +56,7 @@ const createOTP = async (options = {}) => {
 };
 
 const deletePassword = async (otp, options = {}) => {
-  let agent = request(app).delete(
+  let agent = request(app).post(
     "/api/1.0/delete/" + options.id + "/" + options.userId
   );
 

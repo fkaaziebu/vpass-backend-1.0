@@ -113,7 +113,7 @@ describe("User Registration", () => {
   it("returns Email in use when same email is already in use", async () => {
     await User.create({ ...validUser });
     const response = await postUser();
-    expect(response.body.validationErrors.email).toBe("Email in use");
+    expect(response.body.validationErrors.email).toBe(en.email_inuse);
   });
 
   it("returns errors for both username is null and email is in use", async () => {

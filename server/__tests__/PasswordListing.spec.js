@@ -123,6 +123,7 @@ describe("List Passwords", () => {
       "id",
       "userId",
       "description",
+      "createdAt",
     ]);
   });
 });

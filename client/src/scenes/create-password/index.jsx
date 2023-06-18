@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import generateString from "./generateString";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setErrorMessage, setSuccessMessage } from "../../state/index";
+import {
+  setErrorMessage,
+  setSuccessMessage,
+  passwordListing,
+} from "../../state/index";
 
 function CreatePass() {
   // eslint-disable-next-line no-unused-vars
@@ -35,6 +39,19 @@ function CreatePass() {
     symbols: Yup.boolean(),
   });
 
+  async function handleFetchPassword() {
+    const response = await axios.get(
+      "https://vpass-backend.onrender.com/api/1.0/passwords/" + user.id,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    const data = await response.data.passwords;
+    dispatch(passwordListing(data));
+  }
+
   const handleSubmit = async (values) => {
     const { description, password } = values;
     setIsLoading(true);
@@ -52,8 +69,8 @@ function CreatePass() {
           },
         }
       );
-      navigate("/dashboard");
       dispatch(setSuccessMessage({ message: "Password created successfully" }));
+      handleFetchPassword();
     } catch (err) {
       dispatch(setErrorMessage({ message: err.response.data.message }));
       navigate("/");
@@ -61,28 +78,16 @@ function CreatePass() {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    dispatch(setErrorMessage({}));
-    dispatch(setSuccessMessage({}));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div className="d-flex justify-content-center align-items-center flex-column">
-      <div className="d-flex justify-content-between bg-white rounded-5 p-4">
-        <h1 className="display-5">
-          Generate a password or store your own password
-        </h1>
-      </div>
       <Formik
         initialValues={createPassValues}
         validationSchema={loginValuesValidation}
         onSubmit={handleSubmit}
       >
         {({ values, handleChange }) => (
-          <Form className="d-flex justify-content-center container-fluid container-md p-3 p-md-5">
-            <fieldset className="d-flex flex-column w-md-50">
+          <Form className="d-flex justify-content-center container-fluid container-md p-0 p-md-3">
+            <fieldset className="d-flex flex-column">
               <div className="mb-1">
                 <label htmlFor="description" className="form-label fs-5">
                   Password Description
@@ -107,6 +112,7 @@ function CreatePass() {
                   name="password"
                   type="text"
                   className="form-control fs-3"
+                  disabled
                 />
                 <ErrorMessage
                   component="div"

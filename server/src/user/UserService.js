@@ -35,7 +35,7 @@ const createPassword = async (id, body) => {
 const passwords = async (id) => {
   return await Password.findAll({
     where: { userId: id },
-    attributes: ["id", "userId", "description"],
+    attributes: ["id", "userId", "description", "createdAt"],
   });
 };
 
