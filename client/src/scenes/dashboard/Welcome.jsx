@@ -8,12 +8,12 @@ function Welcome() {
         <h2 className="display-5 fw-normal text-center">
           Welcome to your VPASS dashboard!
         </h2>
-        <p className="text-muted fs-4">
+        <p className="text-muted fs-4 text-center my-5">
           VPASS is a cloud application for generating and saving passwords. It
           helps you to create and store secure passwords for all your online and
           offline accounts
         </p>
-        <div>
+        <div className="text-center">
           <button
             data-bs-toggle="modal"
             data-bs-target="#exampleModal3"
