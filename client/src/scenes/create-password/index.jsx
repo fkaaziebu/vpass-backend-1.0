@@ -219,6 +219,12 @@ function CreatePass() {
                         symbols: values.symbols,
                       });
                     }}
+                    disabled={
+                      !values.lowercase &&
+                      !values.uppercase &&
+                      !values.numeric &&
+                      !values.symbols
+                    }
                   >
                     Generate Password
                   </button>
@@ -230,6 +236,7 @@ function CreatePass() {
                     className="btn btn-primary fs-4"
                     data-bs-dismiss="modal"
                     aria-label="Close"
+                    disabled={!values.password || values.description.length < 3}
                   >
                     {isLoading ? (
                       <div className="spinner-border" role="status">

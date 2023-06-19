@@ -1,6 +1,6 @@
 function generateOTP(length, options = {}) {
   let raw = "";
-  length = 4;
+  length = 6;
   options.numeric = true;
   options.uppercase = false;
   options.lowercase = false;

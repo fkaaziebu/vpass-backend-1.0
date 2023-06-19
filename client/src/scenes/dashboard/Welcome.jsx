@@ -1,12 +1,12 @@
 import React from "react";
-import ReactLogo from "../../images/logo192.png";
+import vpassLogo from "../../images/vpass-favicon.png";
 import CreatePass from "../create-password";
 
 function Welcome() {
   return (
     <div className="d-flex justify-content-between align-items-center bg-white rounded-5 p-4">
       <div className="d-none d-lg-flex">
-        <img className="img-fluid" src={ReactLogo} alt="React Logo" />
+        <img className="img-fluid w-50" src={vpassLogo} alt="React Logo" />
       </div>
       <div>
         <h2 className="display-5 fw-normal">
