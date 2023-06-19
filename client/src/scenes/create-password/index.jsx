@@ -122,7 +122,7 @@ function CreatePass() {
 
                 <div className="mb-3">
                   <label htmlFor="password" className="form-label fs-5">
-                    Enter Password
+                    Generated Password
                   </label>
                   <Field
                     name="password"
@@ -225,13 +225,18 @@ function CreatePass() {
                 </div>
 
                 <div className="d-grid mt-3">
-                  <button type="submit" className="btn btn-primary fs-4">
+                  <button
+                    type="submit"
+                    className="btn btn-primary fs-4"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
                     {isLoading ? (
                       <div className="spinner-border" role="status">
                         <span className="visually-hidden">Loading...</span>
                       </div>
                     ) : (
-                      "Create"
+                      "Save"
                     )}
                   </button>
                 </div>

@@ -9,7 +9,7 @@ import {
   setErrorMessage,
   setSuccessMessage,
 } from "../../state/index";
-import vpassLogo from "../../images/vpass-logo.png";
+import vpassLogo from "../../images/vpass-with-background.jpg";
 
 function Home() {
   const navigate = useNavigate();
@@ -114,7 +114,7 @@ function Home() {
               <>
                 <legend className="fs-3 fw-bold mb-4 text-center">
                   <img
-                    className="img-fluid w-25 border rounded-5 mb-5"
+                    className="img-fluid w-15 border rounded-5 mb-5"
                     src={vpassLogo}
                     alt="VPASS logo"
                   />

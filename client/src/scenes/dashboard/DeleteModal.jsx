@@ -80,8 +80,15 @@ function DeleteModal({ passId }) {
           >
             <div className="modal-body">
               <div className="my-3">
+                <div className="my-3">
+                  <p className="text-muted">
+                    If you consent to deleting your password, please enter the
+                    Authentication code sent to your email in the field below
+                    and press delete
+                  </p>
+                </div>
                 <label htmlFor="otp" className="form-label fs-4">
-                  Authentication code
+                  Verification code
                 </label>
                 <input
                   type="text"
@@ -90,13 +97,6 @@ function DeleteModal({ passId }) {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
                 />
-              </div>
-              <div className="my-3">
-                <p className="text-muted">
-                  If you consent to deleting your password, please enter the
-                  Authentication code sent to your email in the field above and
-                  press delete
-                </p>
               </div>
             </div>
             <div className="modal-footer">

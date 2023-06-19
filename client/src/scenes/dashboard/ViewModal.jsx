@@ -71,8 +71,14 @@ function ViewModal({ passId }) {
           >
             <div className="modal-body">
               <div className="my-3">
+                <div className="my-3">
+                  <p className="text-muted">
+                    Enter the verification token sent to your email in the field
+                    below
+                  </p>
+                </div>
                 <label htmlFor="otp" className="form-label fs-4">
-                  Authentication Code
+                  Verification Code
                 </label>
                 <input
                   type="text"
@@ -82,12 +88,6 @@ function ViewModal({ passId }) {
                   onChange={(e) => setOtp(e.target.value)}
                   disabled={password.password}
                 />
-              </div>
-              <div className="my-3">
-                <p className="text-muted">
-                  Enter the authentication token sent to your email in the field
-                  above
-                </p>
               </div>
               <div className="my-3">
                 <input

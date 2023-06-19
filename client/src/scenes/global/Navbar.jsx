@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { userAuth } from "../../state/index";
-import VpassLogo from "../../images/vpass-logo.png";
+import VpassLogo from "../../images/vpass-no-background.png";
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
@@ -13,11 +13,10 @@ function Navbar() {
       <div className="container-fluid">
         <Link className="d-flex align-items-center navbar-brand m-0 mw-50" to="/">
           <img
-            className="img-fluid w-15 border rounded-pill me-3"
+            className="img-fluid w-15"
             src={VpassLogo}
             alt="Vpass Logo"
           />
-          <h1 className="display-6 m-0">VPASS</h1>
         </Link>
         {user?.token && (
           <button

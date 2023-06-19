@@ -65,7 +65,6 @@ function PasswordListing() {
   };
 
   const columns = [
-    { field: "id", headerName: "ID" },
     {
       field: "description",
       headerName: "Description",

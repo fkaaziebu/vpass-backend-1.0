@@ -13,8 +13,9 @@ function Welcome() {
           Welcome to your VPASS dashboard!
         </h2>
         <p className="text-muted fs-4">
-          Your vpass dashboard is a safe place to store passwords and create
-          passwords for everything
+          VPASS is a cloud application for generating and saving passwords. It
+          helps you to create and store secure passwords for all your online and
+          offline accounts
         </p>
         <div>
           <button
@@ -36,8 +37,7 @@ function Welcome() {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered">
-          
-            <CreatePass />
+          <CreatePass />
         </div>
       </div>
     </div>
