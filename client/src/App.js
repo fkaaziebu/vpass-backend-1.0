@@ -3,7 +3,8 @@ import Home from "./scenes/home/index";
 import Dashboard from "./scenes/dashboard/index";
 import Navbar from "./scenes/global/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { setErrorMessage, setSuccessMessage } from "../src/state/index";
+import { setSuccessMessage } from "../src/state/index";
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.auth.user?.token));
@@ -11,46 +12,50 @@ function App() {
   const success = useSelector((state) => state.auth.successMessage);
   const dispatch = useDispatch();
 
+  const errorMsg = (err) =>
+    toast.error(err, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const successMsg = (scs) =>
+    toast.success(scs, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
   return (
     <div id="wrapper" className="container-fluid p-0 bg-light">
-      <div className="error-component d-flex flex-column align-items-end justify-content-center">
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="toast-container position-fixed bottom-0 start-0 p-3">
         {Object.values(errors).map((err) => {
-          return (
-            <div
-              className="alert alert-danger alert-dismissible fade show m-0"
-              role="alert"
-              key={err}
-            >
-              <p className="m-0 me-5">{err}</p>
-              <button
-                type="button"
-                class="btn-close"
-                aria-label="Close"
-                onClick={() => {
-                  dispatch(setErrorMessage({}));
-                }}
-              ></button>
-            </div>
-          );
+          return errorMsg(err);
         })}
         {Object.values(success).map((scs) => {
-          return (
-            <div
-              className="alert alert-success alert-dismissible fade show m-0"
-              role="alert"
-              key={scs}
-            >
-              <p className="m-0 me-5">{scs}</p>
-              <button
-                type="button"
-                class="btn-close"
-                aria-label="Close"
-                onClick={() => {
-                  dispatch(setSuccessMessage({}));
-                }}
-              ></button>
-            </div>
-          );
+          return successMsg(scs);
         })}
       </div>
       <BrowserRouter>

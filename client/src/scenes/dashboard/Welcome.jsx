@@ -1,15 +1,11 @@
 import React from "react";
-import vpassLogo from "../../images/vpass-favicon.png";
 import CreatePass from "../create-password";
 
 function Welcome() {
   return (
     <div className="d-flex justify-content-between align-items-center bg-white rounded-5 p-4">
-      <div className="d-none d-lg-flex">
-        <img className="img-fluid w-50" src={vpassLogo} alt="React Logo" />
-      </div>
       <div>
-        <h2 className="display-5 fw-normal">
+        <h2 className="display-5 fw-normal text-center">
           Welcome to your VPASS dashboard!
         </h2>
         <p className="text-muted fs-4">

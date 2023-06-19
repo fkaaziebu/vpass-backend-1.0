@@ -10,6 +10,8 @@ import {
   setSuccessMessage,
 } from "../../state/index";
 import vpassLogo from "../../images/vpass-no-background.png";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Home() {
   const navigate = useNavigate();

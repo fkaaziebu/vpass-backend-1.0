@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { userAuth } from "../../state/index";
+import { setSuccessMessage, userAuth } from "../../state/index";
 import VpassLogo from "../../images/vpass-no-background.png";
 
 function Navbar() {
@@ -50,6 +50,7 @@ function Navbar() {
                       className="dropdown-item p-2 mx-2 fs-3"
                       onClick={() => {
                         dispatch(userAuth({}));
+                        dispatch(setSuccessMessage({message: "Logout successful"}))
                       }}
                       href="#home"
                     >

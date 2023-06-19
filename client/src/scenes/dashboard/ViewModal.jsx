@@ -38,6 +38,12 @@ function ViewModal({ passId }) {
     setIsLoading(false);
   };
 
+  // Copy text to clipboard
+  const handleCopy = () => {
+    navigator.clipboard.writeText(password?.password);
+    dispatch(setSuccessMessage({message: "Password copied successfully"}))
+  };
+
   return (
     <div
       className="modal fade"
@@ -89,7 +95,7 @@ function ViewModal({ passId }) {
                   disabled={password.password}
                 />
               </div>
-              <div className="my-3">
+              <div className="input-group my-3">
                 <input
                   type="text"
                   className="form-control fs-3"
@@ -97,6 +103,16 @@ function ViewModal({ passId }) {
                   value={password.password ? password.password : "*".repeat(31)}
                   disabled
                 />
+                <button
+                  type="button"
+                  className="btn input-group-text border border-2"
+                  style={{ cursor: "pointer" }}
+                  id="copy"
+                  disabled={!password.password}
+                  onClick={handleCopy}
+                >
+                  Copy
+                </button>
               </div>
             </div>
             <div className="modal-footer">
