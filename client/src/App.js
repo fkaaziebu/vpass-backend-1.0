@@ -3,8 +3,8 @@ import Home from "./scenes/home/index";
 import Dashboard from "./scenes/dashboard/index";
 import Navbar from "./scenes/global/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { setSuccessMessage } from "../src/state/index";
 import { ToastContainer, toast } from "react-toastify";
+import { setErrorMessage, setSuccessMessage } from "./state";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.auth.user?.token));
@@ -12,7 +12,7 @@ function App() {
   const success = useSelector((state) => state.auth.successMessage);
   const dispatch = useDispatch();
 
-  const errorMsg = (err) =>
+  const errorMsg = (err) => {
     toast.error(err, {
       position: "top-center",
       autoClose: 5000,
@@ -23,8 +23,10 @@ function App() {
       progress: undefined,
       theme: "light",
     });
+    dispatch(setErrorMessage({}));
+  };
 
-  const successMsg = (scs) =>
+  const successMsg = (scs) => {
     toast.success(scs, {
       position: "top-center",
       autoClose: 5000,
@@ -35,6 +37,8 @@ function App() {
       progress: undefined,
       theme: "light",
     });
+    dispatch(setSuccessMessage({}));
+  };
 
   return (
     <div id="wrapper" className="container-fluid p-0 bg-light">
