@@ -83,7 +83,7 @@ function DeleteModal({ passId }) {
                 <div className="my-3">
                   <p className="text-muted">
                     If you consent to deleting your password, please enter the
-                    Authentication code sent to your email in the field below
+                    verification code sent to your email in the field below
                     and press delete
                   </p>
                 </div>

@@ -73,7 +73,7 @@ function PasswordListing() {
     { field: "createdAt", headerName: "Date Created", flex: 2 },
     {
       field: "view-delete",
-      headerName: "View / Delete",
+      headerName: "Action",
       headerAlign: "center",
       align: "center",
       flex: 1,
