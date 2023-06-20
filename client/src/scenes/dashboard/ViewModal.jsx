@@ -1,16 +1,48 @@
-import React, { useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setErrorMessage, setSuccessMessage } from "../../state/index";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CheckIcon from "@mui/icons-material/Check";
 
 function ViewModal({ passId }) {
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const [password, setPassword] = useState({});
-  const [otp, setOtp] = useState("");
+  const [isCopy, setIsCopy] = useState(false);
   const dispatch = useDispatch();
+
+  const [otp, setOtp] = useState(new Array(6).fill(""));
+  const [activeOTPIndex, setActiveOTPIndex] = useState(0);
+  const inputRef = useRef();
+  let currentOTPIndex = 0;
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    const newOTP = [...otp];
+    newOTP[currentOTPIndex] = value.substring(value.length - 1);
+
+    if (!value) {
+      setActiveOTPIndex(currentOTPIndex - 1);
+    } else {
+      setActiveOTPIndex(currentOTPIndex + 1);
+    }
+
+    setOtp(newOTP);
+  };
+
+  const handleOnKeyDown = (e, index) => {
+    const { key } = e;
+    currentOTPIndex = index;
+    if (key === "Backspace") {
+      setActiveOTPIndex(currentOTPIndex - 1);
+    }
+  };
+
   // Viewing Password
   const viewPassword = async (id) => {
+    console.log(otp.join(""));
+    const otpToSend = otp.join("");
     setIsLoading(true);
     try {
       const response = await axios.post(
@@ -20,7 +52,7 @@ function ViewModal({ passId }) {
           user.id +
           "/" +
           "verify",
-        { otp },
+        { otpToSend },
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -41,7 +73,8 @@ function ViewModal({ passId }) {
   // Copy text to clipboard
   const handleCopy = () => {
     navigator.clipboard.writeText(password?.password);
-    dispatch(setSuccessMessage({message: "Password copied successfully"}))
+    dispatch(setSuccessMessage({ message: "Password copied successfully" }));
+    setIsCopy(true);
   };
 
   return (
@@ -83,17 +116,24 @@ function ViewModal({ passId }) {
                     below
                   </p>
                 </div>
-                <label htmlFor="otp" className="form-label fs-4">
-                  Verification Code
-                </label>
-                <input
-                  type="text"
-                  className="form-control fs-3"
-                  id="otp"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  disabled={password.password}
-                />
+                <div className="d-flex my-3">
+                  {otp.map((_, index) => {
+                    return (
+                      <Fragment key={index}>
+                        {index + 1}
+                        <input
+                          ref={index === activeOTPIndex ? inputRef : null}
+                          type="number"
+                          onChange={handleChange}
+                          onKeyDown={(e) => handleOnKeyDown(e, index)}
+                          value={otp[index]}
+                          className="form-control mx-1 fs-2 spin-button-none"
+                          
+                        />
+                      </Fragment>
+                    );
+                  })}
+                </div>
               </div>
               <div className="input-group my-3">
                 <input
@@ -111,7 +151,7 @@ function ViewModal({ passId }) {
                   disabled={!password.password}
                   onClick={handleCopy}
                 >
-                  Copy
+                  {!isCopy ? <ContentCopyIcon /> : <CheckIcon />}
                 </button>
               </div>
             </div>

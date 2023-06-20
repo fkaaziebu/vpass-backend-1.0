@@ -13,6 +13,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ViewModal from "./ViewModal";
 import DeleteModal from "./DeleteModal";
+import OTPModal from "./OTPModal";
 
 function PasswordListing() {
   const passwords = useSelector((state) => state.auth.passwords);
@@ -83,7 +84,7 @@ function PasswordListing() {
             <button
               type="button"
               data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
+              data-bs-target="#exampleModal1"
               className="border border-0"
             >
               <Box
@@ -98,7 +99,7 @@ function PasswordListing() {
                 }}
                 onClick={async () => {
                   setPassId(id);
-                  await sendOTP(id);
+                  // await sendOTP(id);
                 }}
               >
                 <Typography color={"#ffffff"}>
@@ -109,7 +110,7 @@ function PasswordListing() {
             <button
               type="button"
               data-bs-toggle="modal"
-              data-bs-target="#exampleModal2"
+              data-bs-target="#exampleModal1"
               className="ms-2 border border-0"
             >
               <Box
@@ -123,7 +124,7 @@ function PasswordListing() {
                 }}
                 onClick={async () => {
                   setPassId(id);
-                  await sendOTP(id);
+                  // await sendOTP(id);
                 }}
               >
                 <Typography color={"#ffffff"}>
@@ -187,6 +188,9 @@ function PasswordListing() {
 
       {/* Delete Modal */}
       <DeleteModal passId={passId} />
+
+      {/* OTP Sending Modal */}
+      <OTPModal passId={passId} />
     </div>
   );
 }
