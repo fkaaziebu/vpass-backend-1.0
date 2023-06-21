@@ -11,11 +11,8 @@ import {
 import { Box, LinearProgress, Typography } from "@mui/material";
 import {
   DataGrid,
-  GridToolbar,
   GridToolbarColumnsButton,
   GridToolbarContainer,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";

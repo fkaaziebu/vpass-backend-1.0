@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setErrorMessage, setSuccessMessage } from "../../state/index";
-import vpassLogo from "../../images/vpass-favicon.png";
 
 function OTPModal({ passId, modalId }) {
   const user = useSelector((state) => state.auth.user);
