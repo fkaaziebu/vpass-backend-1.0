@@ -72,8 +72,14 @@ function CreatePass() {
       dispatch(setSuccessMessage({ message: "Password created successfully" }));
       handleFetchPassword();
     } catch (err) {
-      dispatch(setErrorMessage({ message: err.response.data.message }));
-      navigate("/");
+      if (err.response) {
+        dispatch(setErrorMessage({ message: err.response.data.message }));
+        navigate("/");
+      } else if (err.request) {
+        dispatch(setErrorMessage({ message: "Network error, reconnect" }));
+      } else {
+        dispatch(setErrorMessage({ message: err.message }));
+      }
     }
     setIsLoading(false);
     values.description = "";
