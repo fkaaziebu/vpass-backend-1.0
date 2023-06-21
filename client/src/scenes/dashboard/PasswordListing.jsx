@@ -56,7 +56,6 @@ function PasswordListing() {
         dispatch(userAuth({}));
         navigate("/");
       } else if (err.request) {
-        console.log(err.request);
         dispatch(setErrorMessage({ message: "Network error, reconnect" }));
       } else {
         dispatch(setErrorMessage({ message: err.message }));
@@ -118,7 +117,6 @@ function PasswordListing() {
                 onClick={async () => {
                   setPassId(id);
                   setModalId("2");
-                  // await sendOTP(id);
                 }}
               >
                 <Typography color={"#ffffff"}>
@@ -148,7 +146,6 @@ function PasswordListing() {
                 onClick={async () => {
                   setPassId(id);
                   setModalId("4");
-                  // await sendOTP(id);
                 }}
               >
                 <Typography color={"#ffffff"}>

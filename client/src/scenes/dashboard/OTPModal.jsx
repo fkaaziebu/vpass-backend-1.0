@@ -23,7 +23,6 @@ function OTPModal({ passId, modalId }) {
       if (err.response) {
         dispatch(setErrorMessage({ message: err.response.data.message }));
       } else if (err.request) {
-        console.log(err.request);
         dispatch(setErrorMessage({ message: "Network error, reconnect" }));
       } else {
         dispatch(setErrorMessage({ message: err.message }));
@@ -41,9 +40,6 @@ function OTPModal({ passId, modalId }) {
     >
       <div className="modal-dialog modal-dialog-top">
         <div className="modal-content">
-          {/* <div className="modal-header d-flex justify-content-center align-items-center border-0">
-            
-          </div> */}
           <form>
             <div className="modal-body px-3 m-0">
               <div className="m-0">

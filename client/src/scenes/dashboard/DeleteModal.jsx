@@ -65,7 +65,6 @@ function DeleteModal({ passId }) {
       if (err.response) {
         dispatch(setErrorMessage({ message: err.response.data.message }));
       } else if (err.request) {
-        console.log(err.request);
         dispatch(setErrorMessage({ message: "Network error, reconnect" }));
       } else {
         dispatch(setErrorMessage({ message: err.message }));
@@ -112,7 +111,6 @@ function DeleteModal({ passId }) {
       if (err.response) {
         dispatch(setErrorMessage({ message: err.response.data.message }));
       } else if (err.request) {
-        console.log(err.request);
         dispatch(setErrorMessage({ message: "Network error, reconnect" }));
       } else {
         dispatch(setErrorMessage({ message: err.message }));
