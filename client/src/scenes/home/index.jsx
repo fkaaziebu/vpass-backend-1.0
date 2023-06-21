@@ -9,7 +9,7 @@ import {
   setErrorMessage,
   setSuccessMessage,
 } from "../../state/index";
-import vpassLogo from "../../images/vpass-no-background.png";
+import vpassLogo from "../../images/vpass-favicon.png";
 import "react-toastify/dist/ReactToastify.css";
 
 function Home() {
@@ -63,8 +63,14 @@ function Home() {
       dispatch(setSuccessMessage({ message: "Login Successful" }));
       dispatch(setErrorMessage({}));
     } catch (err) {
-      dispatch(setErrorMessage({ message: err.response.data.message }));
-      // console.log(err.data.message)
+      if (err.response) {
+        dispatch(setErrorMessage({ message: err.response.data.message }));
+      } else if (err.request) {
+        console.log(err.request);
+        dispatch(setErrorMessage({ message: "Network error, reconnect" }));
+      } else {
+        dispatch(setErrorMessage({ message: err.message }));
+      }
     }
     setIsLoading(false);
   };
@@ -88,8 +94,14 @@ function Home() {
       navigate("/");
       setIsLogin(true);
     } catch (err) {
-      dispatch(setErrorMessage(err.response.data.validationErrors));
-      // console.log(err.data.message)
+      if (err.response) {
+        dispatch(setErrorMessage(err.response.data.validationErrors));
+      } else if (err.request) {
+        console.log(err.request);
+        dispatch(setErrorMessage({ message: "Network error, reconnect" }));
+      } else {
+        dispatch(setErrorMessage({ message: err.message }));
+      }
     }
     setIsLoading(false);
   };
@@ -115,7 +127,7 @@ function Home() {
               <>
                 <legend className="fs-3 fw-bold mb-4 text-center">
                   <img
-                    className="img-fluid w-15 border rounded-5 mb-5"
+                    className="img-fluid w-10 border rounded-5 mb-3 p-1"
                     src={vpassLogo}
                     alt="VPASS logo"
                   />
@@ -154,7 +166,10 @@ function Home() {
                 </div>
 
                 <div className="d-grid mt-3">
-                  <button type="submit" className="btn btn-primary fs-4">
+                  <button
+                    type="submit"
+                    className="btn btn-violet text-light fs-4"
+                  >
                     {isLoading ? (
                       <div className="spinner-border" role="status">
                         <span className="visually-hidden">Loading...</span>
@@ -171,7 +186,7 @@ function Home() {
               <>
                 <legend className="fs-3 fw-bold mb-4 text-center">
                   <img
-                    className="img-fluid w-15 border rounded-5 mb-5"
+                    className="img-fluid w-10 border rounded-5 mb-3 p-1"
                     src={vpassLogo}
                     alt="VPASS logo"
                   />

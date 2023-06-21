@@ -6,14 +6,20 @@ import {
   passwordListing,
   setErrorMessage,
   setSuccessMessage,
+  userAuth,
 } from "../../state/index";
-import { Box, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { Box, LinearProgress, Typography } from "@mui/material";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ViewModal from "./ViewModal";
 import DeleteModal from "./DeleteModal";
 import OTPModal from "./OTPModal";
+import AddIcon from "@mui/icons-material/Add";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 function PasswordListing() {
   const passwords = useSelector((state) => state.auth.passwords);
@@ -21,57 +27,64 @@ function PasswordListing() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [passId, setPassId] = useState("");
+  const [modalId, setModalId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleFetchPassword() {
-    const response = await axios.get(
-      "https://vpass-backend.onrender.com/api/1.0/passwords/" + user.id,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
-    );
-    const data = await response.data.passwords;
-    dispatch(passwordListing(data));
-  }
-
-  useEffect(() => {
+    setIsLoading(true);
     try {
-      handleFetchPassword();
-      dispatch(setErrorMessage({}));
-    } catch (err) {
-      dispatch(setErrorMessage({ message: err.response.data.message }));
-      dispatch(setSuccessMessage({}));
-      navigate("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Sending of OTP
-  const sendOTP = async (id) => {
-    try {
-      await axios.post(
-        "https://vpass-backend.onrender.com/api/1.0/otp/" + id + "/" + user.id,
-        {},
+      const response = await axios.get(
+        "https://vpass-backend.onrender.com/api/1.0/passwords/" + user.id,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
         }
       );
-      dispatch(setSuccessMessage({ message: "OTP code sent successfully" }));
+      const data = await response.data.passwords;
+      dispatch(passwordListing(data));
+      dispatch(setErrorMessage({}));
     } catch (err) {
-      dispatch(setErrorMessage({ message: err.response.data.message }));
+      if (err.response) {
+        dispatch(setErrorMessage({ message: err.response.data.message }));
+        dispatch(setSuccessMessage({}));
+        dispatch(userAuth({}));
+        navigate("/");
+      } else if (err.request) {
+        console.log(err.request)
+        dispatch(setErrorMessage({ message: "Network error, reconnect" }));
+      } else {
+        dispatch(setErrorMessage({ message: err.message }));
+      }
     }
-  };
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    handleFetchPassword();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const columns = [
     {
       field: "description",
       headerName: "Description",
       flex: 2,
+      cellClassName: "description-column--cell",
     },
-    { field: "createdAt", headerName: "Date Created", flex: 2 },
+    {
+      field: "createdAt",
+      headerName: "Date Created",
+      flex: 2,
+      cellClassName: "created-column--cell",
+      renderCell: ({ row: { createdAt } }) => {
+        return (
+          <>
+            <div>{dayjs(createdAt).fromNow()}</div>
+          </>
+        );
+      },
+    },
     {
       field: "view-delete",
       headerName: "Action",
@@ -99,11 +112,16 @@ function PasswordListing() {
                 }}
                 onClick={async () => {
                   setPassId(id);
+                  setModalId("2");
                   // await sendOTP(id);
                 }}
               >
                 <Typography color={"#ffffff"}>
-                  <VisibilityIcon />
+                  <VisibilityIcon
+                    sx={{
+                      fontSize: "2rem",
+                    }}
+                  />
                 </Typography>
               </Box>
             </button>
@@ -124,11 +142,16 @@ function PasswordListing() {
                 }}
                 onClick={async () => {
                   setPassId(id);
+                  setModalId("4");
                   // await sendOTP(id);
                 }}
               >
                 <Typography color={"#ffffff"}>
-                  <DeleteOutlineIcon />
+                  <DeleteOutlineIcon
+                    sx={{
+                      fontSize: "2rem",
+                    }}
+                  />
                 </Typography>
               </Box>
             </button>
@@ -140,10 +163,21 @@ function PasswordListing() {
 
   return (
     <div className="d-flex flex-column justify-content-between bg-white rounded-5 p-4 mt-5">
-      <div>
-        <h3>All Passwords</h3>
+      <div className="d-flex justify-content-between">
+        <h3 className="text-deepblue">All Passwords</h3>
+        <button
+          className="btn btn-deepblue rounded-pill pe-4 text-light fs-3 d-flex align-items-center"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal3"
+        >
+          <AddIcon
+            sx={{
+              fontSize: "40px",
+            }}
+          />{" "}
+          New
+        </button>
       </div>
-      <div className="line-div my-5" />
       <Box
         m="0"
         height="75vh"
@@ -154,11 +188,18 @@ function PasswordListing() {
           "& .MuiDataGrid-cell": {
             borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
           },
-          "& .name-column--cell": {
+          "& .description-column--cell": {
             color: "#2e7c67",
+            fontSize: "1.5rem",
+          },
+          "& .created-column--cell": {
+            color: "#2e7c67",
+            fontSize: "1.5rem",
           },
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: "#ffffff",
+            fontSize: "1.7rem",
+            color: "#0c134f",
             borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -180,6 +221,11 @@ function PasswordListing() {
               },
             },
           }}
+          slots={{
+            toolbar: GridToolbar,
+            loadingOverlay: LinearProgress,
+          }}
+          loading={isLoading}
         />
       </Box>
 
@@ -190,7 +236,7 @@ function PasswordListing() {
       <DeleteModal passId={passId} />
 
       {/* OTP Sending Modal */}
-      <OTPModal passId={passId} />
+      <OTPModal passId={passId} modalId={modalId} />
     </div>
   );
 }

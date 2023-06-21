@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setErrorMessage, setSuccessMessage } from "../../state/index";
 import vpassLogo from "../../images/vpass-favicon.png";
 
-function OTPModal({ passId }) {
+function OTPModal({ passId, modalId }) {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
@@ -21,7 +21,14 @@ function OTPModal({ passId }) {
       );
       dispatch(setSuccessMessage({ message: "OTP code sent successfully" }));
     } catch (err) {
-      dispatch(setErrorMessage({ message: err.response.data.message }));
+      if (err.response) {
+        dispatch(setErrorMessage({ message: err.response.data.message }));
+      } else if (err.request) {
+        console.log(err.request);
+        dispatch(setErrorMessage({ message: "Network error, reconnect" }));
+      } else {
+        dispatch(setErrorMessage({ message: err.message }));
+      }
     }
   };
 
@@ -54,18 +61,15 @@ function OTPModal({ passId }) {
             <div className="row g-1 modal-footer border-0">
               <button
                 type="button"
-                className="btn text-light fs-4 col"
-                style={{
-                  background: "#0C134F",
-                }}
+                className="btn btn-deepblue text-light fs-4 col"
                 data-bs-dismiss="modal"
               >
                 Cancel
               </button>
               <button
                 type="button"
-                className="btn btn-primary fs-4 col"
-                data-bs-target="#exampleModal"
+                className="btn btn-violet text-light fs-4 col"
+                data-bs-target={`#exampleModal${modalId}`}
                 data-bs-toggle="modal"
                 onClick={async () => {
                   await sendOTP(passId);

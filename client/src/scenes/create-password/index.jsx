@@ -201,7 +201,7 @@ function CreatePass() {
                 <div className="d-grid mt-3">
                   <button
                     type="button"
-                    className="btn btn-info mt-3 fs-5"
+                    className="btn btn-deepblue text-light mt-3 fs-4"
                     onClick={() => {
                       setPasswordT(
                         generateString(values.length, {
@@ -233,7 +233,7 @@ function CreatePass() {
                 <div className="d-grid mt-3">
                   <button
                     type="submit"
-                    className="btn btn-primary fs-4"
+                    className="btn btn-violet text-light fs-4"
                     data-bs-dismiss="modal"
                     aria-label="Close"
                     disabled={!values.password || values.description.length < 3}

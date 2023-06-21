@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setErrorMessage, setSuccessMessage } from "../../state/index";
@@ -14,21 +14,19 @@ function ViewModal({ passId }) {
 
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [activeOTPIndex, setActiveOTPIndex] = useState(0);
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   let currentOTPIndex = 0;
 
   const handleChange = (e) => {
     const { value } = e.target;
-    const newOTP = [...otp];
-    newOTP[currentOTPIndex] = value.substring(value.length - 1);
 
     if (!value) {
       setActiveOTPIndex(currentOTPIndex - 1);
     } else {
       setActiveOTPIndex(currentOTPIndex + 1);
+      otp[currentOTPIndex] = value.substring(value.length - 1);
+      setOtp([...otp]);
     }
-
-    setOtp(newOTP);
   };
 
   const handleOnKeyDown = (e, index) => {
@@ -36,13 +34,41 @@ function ViewModal({ passId }) {
     currentOTPIndex = index;
     if (key === "Backspace") {
       setActiveOTPIndex(currentOTPIndex - 1);
+      otp[currentOTPIndex] = "";
+      setOtp([...otp]);
     }
   };
 
+  const sendOTP = async (id) => {
+    try {
+      await axios.post(
+        "https://vpass-backend.onrender.com/api/1.0/otp/" + id + "/" + user.id,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      dispatch(setSuccessMessage({ message: "OTP code sent successfully" }));
+    } catch (err) {
+      if (err.response) {
+        dispatch(setErrorMessage({ message: err.response.data.message }));
+      } else if (err.request) {
+        console.log(err.request);
+        dispatch(setErrorMessage({ message: "Network error, reconnect" }));
+      } else {
+        dispatch(setErrorMessage({ message: err.message }));
+      }
+    }
+  };
+
+  useEffect(() => {
+    inputRef?.current?.focus();
+  }, [activeOTPIndex]);
+
   // Viewing Password
   const viewPassword = async (id) => {
-    console.log(otp.join(""));
-    const otpToSend = otp.join("");
     setIsLoading(true);
     try {
       const response = await axios.post(
@@ -52,7 +78,7 @@ function ViewModal({ passId }) {
           user.id +
           "/" +
           "verify",
-        { otpToSend },
+        { otp: otp.join("") },
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -62,10 +88,17 @@ function ViewModal({ passId }) {
 
       const data = response?.data?.password;
       setPassword(data);
-      setOtp("");
+      setOtp(new Array(6).fill(""));
       dispatch(setSuccessMessage({ message: "OTP code verified" }));
     } catch (err) {
-      dispatch(setErrorMessage({ message: err.response.data.message }));
+      if (err.response) {
+        dispatch(setErrorMessage({ message: err.response.data.message }));
+      } else if (err.request) {
+        console.log(err.request);
+        dispatch(setErrorMessage({ message: "Network error, reconnect" }));
+      } else {
+        dispatch(setErrorMessage({ message: err.message }));
+      }
     }
     setIsLoading(false);
   };
@@ -80,15 +113,15 @@ function ViewModal({ passId }) {
   return (
     <div
       className="modal fade"
-      id="exampleModal"
+      id="exampleModal2"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="exampleModal2Label"
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-3" id="exampleModalLabel">
+          <div className="modal-header border-0">
+            <h1 className="modal-title fs-3" id="exampleModal2Label">
               View Password
             </h1>
             <button
@@ -97,94 +130,105 @@ function ViewModal({ passId }) {
               data-bs-dismiss="modal"
               aria-label="Close"
               onClick={() => {
-                setOtp("");
+                setOtp(new Array(6).fill(""));
                 setPassword("");
+                setIsCopy(false);
               }}
             ></button>
           </div>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              await viewPassword(passId);
-            }}
-          >
-            <div className="modal-body">
+          <div className="modal-body">
+            <div className="my-3">
               <div className="my-3">
-                <div className="my-3">
-                  <p className="text-muted">
-                    Enter the verification token sent to your email in the field
-                    below
-                  </p>
-                </div>
-                <div className="d-flex my-3">
-                  {otp.map((_, index) => {
-                    return (
-                      <Fragment key={index}>
-                        {index + 1}
-                        <input
-                          ref={index === activeOTPIndex ? inputRef : null}
-                          type="number"
-                          onChange={handleChange}
-                          onKeyDown={(e) => handleOnKeyDown(e, index)}
-                          value={otp[index]}
-                          className="form-control mx-1 fs-2 spin-button-none"
-                          
-                        />
-                      </Fragment>
-                    );
-                  })}
-                </div>
+                <p className="text-muted my-3">
+                  Enter the verification token sent to your email in the field
+                  below
+                </p>
               </div>
-              <div className="input-group my-3">
-                <input
-                  type="text"
-                  className="form-control fs-3"
-                  id="otp"
-                  value={password.password ? password.password : "*".repeat(31)}
-                  disabled
-                />
-                <button
-                  type="button"
-                  className="btn input-group-text border border-2"
-                  style={{ cursor: "pointer" }}
-                  id="copy"
-                  disabled={!password.password}
-                  onClick={handleCopy}
-                >
-                  {!isCopy ? <ContentCopyIcon /> : <CheckIcon />}
-                </button>
+
+              <div className="d-flex my-3">
+                {otp.map((_, index) => {
+                  return (
+                    <Fragment key={index}>
+                      <input
+                        ref={index === activeOTPIndex ? inputRef : null}
+                        type="number"
+                        onChange={handleChange}
+                        onKeyDown={(e) => handleOnKeyDown(e, index)}
+                        value={otp[index]}
+                        className="form-control mx-1 fs-2"
+                        disabled={password}
+                      />
+                    </Fragment>
+                  );
+                })}
               </div>
             </div>
-            <div className="modal-footer">
+            <div className="input-group my-3">
+              <input
+                type="text"
+                className="form-control fs-3"
+                id="otp"
+                value={password.password ? password.password : "*".repeat(31)}
+                disabled
+              />
               <button
                 type="button"
-                className="btn text-light fs-4"
-                style={{
-                  background: "#0C134F",
-                }}
-                data-bs-dismiss="modal"
-                onClick={() => {
-                  setOtp("");
-                  setPassword("");
-                }}
+                className="btn input-group-text border border-2"
+                style={{ cursor: "pointer" }}
+                id="copy"
+                disabled={!password.password}
+                onClick={handleCopy}
               >
-                Close
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary fs-4"
-                disabled={password.password}
-              >
-                {!isLoading ? (
-                  "Verify"
-                ) : (
-                  <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                )}
+                {!isCopy ? <ContentCopyIcon /> : <CheckIcon />}
               </button>
             </div>
-          </form>
+
+            <div className="my-3">
+              {!password.password && (
+                <a
+                  href="#home"
+                  alt="resend code"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await sendOTP(passId);
+                  }}
+                  disabled={password.password}
+                >
+                  Didn't get a code? Click to resend
+                </a>
+              )}
+            </div>
+          </div>
+          <div className="row g-1 modal-footer border-0">
+            <button
+              type="button"
+              className="btn btn-deepblue text-light fs-4 col"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                setOtp(new Array(6).fill(""));
+                setPassword("");
+                setIsCopy(false);
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="btn btn-violet text-light fs-4 col"
+              disabled={password.password}
+              onClick={async () => {
+                await viewPassword(passId);
+              }}
+            >
+              {!isLoading ? (
+                "Verify"
+              ) : (
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>
