@@ -9,7 +9,7 @@ import {
   userAuth,
 } from "../../state/index";
 import { Box, LinearProgress, Typography } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ViewModal from "./ViewModal";
@@ -222,7 +222,7 @@ function PasswordListing() {
             },
           }}
           slots={{
-            toolbar: GridToolbar,
+            toolbar: CustomToolbar,
             loadingOverlay: LinearProgress,
           }}
           loading={isLoading}
@@ -242,3 +242,14 @@ function PasswordListing() {
 }
 
 export default PasswordListing;
+
+
+
+const CustomToolbar = () => {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+    </GridToolbarContainer>
+  );
+}
