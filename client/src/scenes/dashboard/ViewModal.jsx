@@ -39,6 +39,16 @@ function ViewModal({ passId }) {
     }
   };
 
+  const handlePaste = async (e) => {
+    const text = e.clipboardData.getData("text");
+    const newOTP = [...otp];
+    await navigator.clipboard.writeText(text.charAt(0));
+    for (let i = 0; i < text.length; i++) {
+      newOTP[i] = text.charAt(i);
+    }
+    setOtp([...newOTP]);
+  };
+
   const sendOTP = async (id) => {
     try {
       await axios.post(
@@ -140,8 +150,8 @@ function ViewModal({ passId }) {
             <div className="my-3">
               <div className="my-3">
                 <p className="text-muted my-3">
-                  Enter the verification code sent to your email in the field and click on view
-                  below
+                  Enter the verification code sent to your email in the field
+                  and click on view below
                 </p>
               </div>
 
@@ -154,6 +164,7 @@ function ViewModal({ passId }) {
                         type="number"
                         onChange={handleChange}
                         onKeyDown={(e) => handleOnKeyDown(e, index)}
+                        onPaste={handlePaste}
                         value={otp[index]}
                         className="form-control mx-1 fs-2"
                         disabled={password.password}
