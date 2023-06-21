@@ -156,7 +156,7 @@ function ViewModal({ passId }) {
                         onKeyDown={(e) => handleOnKeyDown(e, index)}
                         value={otp[index]}
                         className="form-control mx-1 fs-2"
-                        disabled={password}
+                        disabled={password.password}
                       />
                     </Fragment>
                   );
@@ -221,7 +221,7 @@ function ViewModal({ passId }) {
               }}
             >
               {!isLoading ? (
-                "Verify"
+                "View"
               ) : (
                 <div className="spinner-border" role="status">
                   <span className="visually-hidden">Loading...</span>

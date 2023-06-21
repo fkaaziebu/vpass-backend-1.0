@@ -42,13 +42,9 @@ function OTPModal({ passId, modalId }) {
     >
       <div className="modal-dialog modal-dialog-top">
         <div className="modal-content">
-          <div className="modal-header d-flex justify-content-center align-items-center border-0">
-            <img
-              src={vpassLogo}
-              className="img-fluid w-25 border rounded-5 p-1"
-              alt="VPASS logo"
-            />
-          </div>
+          {/* <div className="modal-header d-flex justify-content-center align-items-center border-0">
+            
+          </div> */}
           <form>
             <div className="modal-body px-3 m-0">
               <div className="m-0">
@@ -75,7 +71,7 @@ function OTPModal({ passId, modalId }) {
                   await sendOTP(passId);
                 }}
               >
-                Confirm
+                Send
               </button>
             </div>
           </form>
