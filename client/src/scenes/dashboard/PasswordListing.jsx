@@ -9,7 +9,15 @@ import {
   userAuth,
 } from "../../state/index";
 import { Box, LinearProgress, Typography } from "@mui/material";
-import { DataGrid, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbar,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from "@mui/x-data-grid";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ViewModal from "./ViewModal";
@@ -51,7 +59,7 @@ function PasswordListing() {
         dispatch(userAuth({}));
         navigate("/");
       } else if (err.request) {
-        console.log(err.request)
+        console.log(err.request);
         dispatch(setErrorMessage({ message: "Network error, reconnect" }));
       } else {
         dispatch(setErrorMessage({ message: err.message }));
@@ -193,8 +201,8 @@ function PasswordListing() {
             fontSize: "1.5rem",
           },
           "& .created-column--cell": {
-            color: "#2e7c67",
-            fontSize: "1.5rem",
+            color: "#0c134f",
+            fontSize: "1rem",
           },
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: "#ffffff",
@@ -243,13 +251,19 @@ function PasswordListing() {
 
 export default PasswordListing;
 
-
-
 const CustomToolbar = () => {
   return (
     <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
+      <GridToolbarColumnsButton
+        sx={{
+          color: "#0c134f",
+        }}
+      />
+      <GridToolbarFilterButton
+        sx={{
+          color: "#0c134f",
+        }}
+      />
     </GridToolbarContainer>
   );
-}
+};

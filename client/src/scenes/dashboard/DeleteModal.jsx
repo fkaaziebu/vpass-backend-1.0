@@ -19,16 +19,14 @@ function DeleteModal({ passId }) {
 
   const handleChange = (e) => {
     const { value } = e.target;
-    const newOTP = [...otp];
-    newOTP[currentOTPIndex] = value.substring(value.length - 1);
 
     if (!value) {
       setActiveOTPIndex(currentOTPIndex - 1);
     } else {
       setActiveOTPIndex(currentOTPIndex + 1);
+      otp[currentOTPIndex] = value.substring(value.length - 1);
+      setOtp([...otp]);
     }
-
-    setOtp(newOTP);
   };
 
   const handleOnKeyDown = (e, index) => {
@@ -36,7 +34,19 @@ function DeleteModal({ passId }) {
     currentOTPIndex = index;
     if (key === "Backspace") {
       setActiveOTPIndex(currentOTPIndex - 1);
+      otp[currentOTPIndex] = "";
+      setOtp([...otp]);
     }
+  };
+
+  const handlePaste = async (e) => {
+    const text = e.clipboardData.getData("text");
+    const newOTP = [...otp];
+    await navigator.clipboard.writeText(text.charAt(0));
+    for (let i = 0; i < text.length; i++) {
+      newOTP[i] = text.charAt(i);
+    }
+    setOtp([...newOTP]);
   };
 
   const sendOTP = async (id) => {
@@ -149,6 +159,7 @@ function DeleteModal({ passId }) {
                       type="number"
                       onChange={handleChange}
                       onKeyDown={(e) => handleOnKeyDown(e, index)}
+                      onPaste={handlePaste}
                       value={otp[index]}
                       className="form-control mx-1 fs-2"
                     />
