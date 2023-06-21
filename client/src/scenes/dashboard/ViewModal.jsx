@@ -140,7 +140,7 @@ function ViewModal({ passId }) {
             <div className="my-3">
               <div className="my-3">
                 <p className="text-muted my-3">
-                  Enter the verification token sent to your email in the field
+                  Enter the verification code sent to your email in the field and click on view
                   below
                 </p>
               </div>

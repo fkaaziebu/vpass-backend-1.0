@@ -49,8 +49,8 @@ function OTPModal({ passId, modalId }) {
             <div className="modal-body px-3 m-0">
               <div className="m-0">
                 <p className="text-muted m-0">
-                  A verification token will be sent to your email. Click on the
-                  confirm button to receive the token
+                  A verification code will be sent to your email. Click on the
+                  send button to receive the code
                 </p>
               </div>
             </div>
