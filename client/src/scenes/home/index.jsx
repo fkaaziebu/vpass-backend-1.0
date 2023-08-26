@@ -25,6 +25,8 @@ function Home() {
         "https://vpass-backend.onrender.com/api/1.0/auth"
       );
 
+      console.log(response.data)
+
       dispatch(userAuth(response.data));
       dispatch(setErrorMessage({}));
     } catch (err) {

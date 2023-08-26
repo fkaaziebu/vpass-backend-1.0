@@ -6,6 +6,8 @@ const ErrorHandler = require("./error/ErrorHandler");
 const cors = require("cors");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const sequelize = require("./config/database");
 
 const app = express();
 
@@ -27,6 +29,9 @@ app.use(
     secret: "my secret",
     resave: false,
     saveUninitialized: false,
+    store: new SequelizeStore({
+      db: sequelize,
+    }),
   })
 );
 
