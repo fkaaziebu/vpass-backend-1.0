@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["https://vpass-frontend.onrender.com"],
+    origin: ["https://vpass-frontend.onrender.com", "http://localhost:3000"],
     methods: ["GET", "POST"],
     credentials: true,
   })

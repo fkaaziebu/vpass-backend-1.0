@@ -20,7 +20,6 @@ function Home() {
   axios.defaults.withCredentials = true;
 
   const sessionLogin = async (values) => {
-    setIsLoading(true);
     try {
       const response = await axios.get(
         "https://vpass-backend.onrender.com/api/1.0/auth"
@@ -37,7 +36,6 @@ function Home() {
         dispatch(setErrorMessage({ message: err.message }));
       }
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {
