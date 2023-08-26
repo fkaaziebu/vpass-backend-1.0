@@ -17,6 +17,31 @@ function Home() {
   const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  axios.defaults.withCredentials = true;
+
+
+  const sessionLogin = async (values) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get("https://dms-backend.onrender.com/api/1.0/auth");
+
+      dispatch(userAuth(response.data));
+      dispatch(setErrorMessage({}));
+    } catch (err) {
+      if (err.response) {
+        dispatch(setErrorMessage({ message: err.response.data.message }));
+      } else if (err.request) {
+        dispatch(setErrorMessage({ message: "Network error, reconnect" }));
+      } else {
+        dispatch(setErrorMessage({ message: err.message }));
+      }
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    sessionLogin();
+  }, []);
 
   const loginValues = { email: "", password: "" };
   const registerValues = {
@@ -52,12 +77,9 @@ function Home() {
   const handleLoginSubmit = async (values) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        "https://vpass-backend.onrender.com/api/1.0/auth",
-        {
-          ...values,
-        }
-      );
+      const response = await axios.post("https://dms-backend.onrender.com/api/1.0/auth", {
+        ...values,
+      });
       dispatch(userAuth(response.data));
       navigate("/dashboard");
       dispatch(setSuccessMessage({ message: "Login Successful" }));
@@ -77,12 +99,9 @@ function Home() {
   const handleRegisterSubmit = async (values) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        "https://vpass-backend.onrender.com/api/1.0/users",
-        {
-          ...values,
-        }
-      );
+      const response = await axios.post("https://dms-backend.onrender.com/api/1.0/users", {
+        ...values,
+      });
       dispatch(userAuth(response.data));
       dispatch(
         setSuccessMessage({

@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { setErrorMessage, setSuccessMessage } from "./state";
 
+
 function App() {
+  const dispatch = useDispatch();
   const isAuth = Boolean(useSelector((state) => state.auth.user?.token));
   const errors = useSelector((state) => state.auth.errorMessage);
   const success = useSelector((state) => state.auth.successMessage);
-  const dispatch = useDispatch();
 
   const errorMsg = (err) => {
     toast.error(err, {

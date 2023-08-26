@@ -10,7 +10,7 @@ function OTPModal({ passId, modalId }) {
   const sendOTP = async (id) => {
     try {
       await axios.post(
-        "https://vpass-backend.onrender.com/api/1.0/otp/" + id + "/" + user.id,
+        "https://dms-backend.onrender.com/api/1.0/otp/" + id + "/" + user.id,
         {},
         {
           headers: {

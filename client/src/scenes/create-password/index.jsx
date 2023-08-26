@@ -41,7 +41,7 @@ function CreatePass() {
 
   async function handleFetchPassword() {
     const response = await axios.get(
-      "https://vpass-backend.onrender.com/api/1.0/passwords/" + user.id,
+      "http://localhost:3001/api/1.0/passwords/" + user.id,
       {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -57,7 +57,7 @@ function CreatePass() {
     setIsLoading(true);
     try {
       await axios.post(
-        "https://vpass-backend.onrender.com/api/1.0/users/create-password/" +
+        "http://localhost:3001/api/1.0/users/create-password/" +
           user.id,
         {
           description,

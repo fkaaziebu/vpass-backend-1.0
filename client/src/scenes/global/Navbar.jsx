@@ -1,22 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setSuccessMessage, userAuth } from "../../state/index";
+import {
+  setSuccessMessage,
+  setErrorMessage,
+  userAuth,
+} from "../../state/index";
 import VpassLogo from "../../images/vpass-no-background.png";
+import axios from "axios";
 
 function Navbar() {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const sessionLogout = async (values) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post("https://dms-backend.onrender.com/api/1.0/logout");
+
+      console.log(response);
+
+      dispatch(userAuth(response.data));
+      dispatch(setErrorMessage({}));
+    } catch (err) {
+      if (err.response) {
+        dispatch(setErrorMessage({ message: err.response.data.message }));
+      } else if (err.request) {
+        dispatch(setErrorMessage({ message: "Network error, reconnect" }));
+      } else {
+        dispatch(setErrorMessage({ message: err.message }));
+      }
+    }
+    setIsLoading(false);
+  };
 
   return (
     <nav className="navbar navbar-expand-lg bg-light p-0">
       <div className="container-fluid">
-        <Link className="d-flex align-items-center navbar-brand m-0 mw-50" to="/">
-          <img
-            className="img-fluid w-15"
-            src={VpassLogo}
-            alt="Vpass Logo"
-          />
+        <Link
+          className="d-flex align-items-center navbar-brand m-0 mw-50"
+          to="/"
+        >
+          <img className="img-fluid w-15" src={VpassLogo} alt="Vpass Logo" />
         </Link>
         {user?.token && (
           <button
@@ -48,9 +74,12 @@ function Navbar() {
                   <li>
                     <Link
                       className="dropdown-item p-2 mx-2 fs-3"
-                      onClick={() => {
+                      onClick={async () => {
+                        await sessionLogout();
                         dispatch(userAuth({}));
-                        dispatch(setSuccessMessage({message: "Logout successful"}))
+                        dispatch(
+                          setSuccessMessage({ message: "Logout successful" })
+                        );
                       }}
                       href="#home"
                     >
