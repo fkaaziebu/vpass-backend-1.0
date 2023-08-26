@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["https://dms-backend.onrender.com"],
+    origin: ["https://vpass-frontend.onrender.com"],
     methods: ["GET", "POST"],
     credentials: true,
   })
