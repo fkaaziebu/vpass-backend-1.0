@@ -39,7 +39,7 @@ function PasswordListing() {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "https://dms-backend.onrender.com/api/1.0/passwords/" + user.id,
+        "https://vpass-backend.onrender.com/api/1.0/passwords/" + user.id,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,

@@ -52,7 +52,7 @@ function ViewModal({ passId }) {
   const sendOTP = async (id) => {
     try {
       await axios.post(
-        "https://dms-backend.onrender.com/api/1.0/otp/" + id + "/" + user.id,
+        "https://vpass-backend.onrender.com/api/1.0/otp/" + id + "/" + user.id,
         {},
         {
           headers: {
@@ -81,7 +81,7 @@ function ViewModal({ passId }) {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://dms-backend.onrender.com/api/1.0/otp/" +
+        "https://vpass-backend.onrender.com/api/1.0/otp/" +
           id +
           "/" +
           user.id +

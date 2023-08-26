@@ -19,11 +19,12 @@ function Home() {
   const [isLoading, setIsLoading] = useState(false);
   axios.defaults.withCredentials = true;
 
-
   const sessionLogin = async (values) => {
     setIsLoading(true);
     try {
-      const response = await axios.get("https://dms-backend.onrender.com/api/1.0/auth");
+      const response = await axios.get(
+        "https://vpass-backend.onrender.com/api/1.0/auth"
+      );
 
       dispatch(userAuth(response.data));
       dispatch(setErrorMessage({}));
@@ -77,9 +78,12 @@ function Home() {
   const handleLoginSubmit = async (values) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("https://dms-backend.onrender.com/api/1.0/auth", {
-        ...values,
-      });
+      const response = await axios.post(
+        "https://vpass-backend.onrender.com/api/1.0/auth",
+        {
+          ...values,
+        }
+      );
       dispatch(userAuth(response.data));
       navigate("/dashboard");
       dispatch(setSuccessMessage({ message: "Login Successful" }));
@@ -99,9 +103,12 @@ function Home() {
   const handleRegisterSubmit = async (values) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("https://dms-backend.onrender.com/api/1.0/users", {
-        ...values,
-      });
+      const response = await axios.post(
+        "https://vpass-backend.onrender.com/api/1.0/users",
+        {
+          ...values,
+        }
+      );
       dispatch(userAuth(response.data));
       dispatch(
         setSuccessMessage({
