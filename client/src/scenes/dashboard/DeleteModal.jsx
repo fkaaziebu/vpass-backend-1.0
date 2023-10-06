@@ -52,7 +52,7 @@ function DeleteModal({ passId }) {
   const sendOTP = async (id) => {
     try {
       await axios.post(
-        "https://vpass-backend.onrender.com/api/1.0/otp/" + id + "/" + user.id,
+        "http://localhost:3001/api/1.0/otp/" + id + "/" + user.id,
         {},
         {
           headers: {
@@ -78,7 +78,7 @@ function DeleteModal({ passId }) {
 
   async function handleFetchPassword() {
     const response = await axios.get(
-      "https://vpass-backend.onrender.com/api/1.0/passwords/" + user.id,
+      "http://localhost:3001/api/1.0/passwords/" + user.id,
       {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -94,7 +94,7 @@ function DeleteModal({ passId }) {
     setIsLoading(true);
     try {
       await axios.post(
-        "https://vpass-backend.onrender.com/api/1.0/delete/" +
+        "http://localhost:3001/api/1.0/delete/" +
           id +
           "/" +
           user.id,

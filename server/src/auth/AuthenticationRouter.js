@@ -26,8 +26,7 @@ router.post(
     }
 
     const token = await TokenService.createToken(user);
-
-    // res.setHeader("Set-Cookie", "loggedIn=true");
+    
     req.session.user_id = user.id;
     req.session.username = user.username;
     req.session.token = token;
