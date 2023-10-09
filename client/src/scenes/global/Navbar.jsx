@@ -17,7 +17,7 @@ function Navbar() {
   const sessionLogout = async (values) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:3001/api/1.0/logout");
+      const response = await axios.post("https://vpass-backend.onrender.com/api/1.0/logout");
 
       console.log(response);
 

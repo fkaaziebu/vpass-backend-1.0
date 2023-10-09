@@ -22,7 +22,7 @@ function Home() {
   const sessionLogin = async (values) => {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/1.0/auth"
+        "https://vpass-backend.onrender.com/api/1.0/auth"
       );
 
       console.log(response.data)
@@ -79,7 +79,7 @@ function Home() {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/1.0/auth",
+        "https://vpass-backend.onrender.com/api/1.0/auth",
         {
           ...values,
         }
@@ -104,7 +104,7 @@ function Home() {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/1.0/users",
+        "https://vpass-backend.onrender.com/api/1.0/users",
         {
           ...values,
         }
