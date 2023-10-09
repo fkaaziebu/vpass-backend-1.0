@@ -1,0 +1,109 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.bg-lighter {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.line-div {
+  height: 5px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.vh-75 {
+  height: 75vh;
+}
+
+.w-15 {
+  width: 200px;
+}
+
+.w-10 {
+  width: 100px;
+}
+
+.error-component {
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000000;
+}
+
+.btn-violet {
+  background-color: #7a55d1;
+}
+
+.btn-deepblue {
+  background-color: #0c134f;
+}
+
+.text-deepblue {
+  color: #0c134f;
+}
+
+.bg-waterblue {
+  background-image: linear-gradient(270deg, #525ee14b, #525ee1c4);
+}
+
+.relative {
+  position: relative;
+}
+
+.z-index-1000 {
+  z-index: 1000;
+}
+
+.btn-violet:hover {
+  background-color: #8865db;
+}
+
+.btn-violet:disabled {
+  background-color: #9b7aeb;
+}
+
+.btn-violet:active:hover {
+  background-color: #7a55d1;
+}
+
+.btn-deepblue:hover {
+  background-color: #171f66;
+}
+
+.btn-deepblue:disabled {
+  background-color: #202870;
+}
+
+.btn-deepblue:active:hover {
+  background-color: #0c134f;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@media screen and (min-width: 769px) {
+  .w-md-50 {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .w-md-50 {
+    width: 100%;
+  }
+  .mw-50 {
+    width: 80%;
+  }
+}

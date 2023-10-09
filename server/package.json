@@ -1,0 +1,79 @@
+{
+  "name": "vpass-backend-1.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development nodemon index",
+    "test": "cross-env NODE_ENV=test jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fkaaziebu/vpass-backend-1.0.git"
+  },
+  "author": "Frederick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fkaaziebu/vpass-backend-1.0/issues"
+  },
+  "homepage": "https://github.com/fkaaziebu/vpass-backend-1.0#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "config": "^3.3.9",
+    "connect-session-sequelize": "^7.1.7",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^6.15.0",
+    "nodemailer": "^6.9.1",
+    "sequelize": "^6.30.0",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-prettier": "^0.0.0-empty",
+    "jest": "^29.5.0",
+    "jest-watch-typeahead": "^2.2.2",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.7",
+    "smtp-server": "^3.11.0",
+    "supertest": "^6.3.3"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "env": {
+      "node": true,
+      "es6": true,
+      "jest": true
+    },
+    "rules": {
+      "eqeqeq": "warn",
+      "prettier/prettier": "warn",
+      "no-unused-vars": "warn",
+      "semi": "warn"
+    }
+  },
+  "prettier": {
+    "singleQuote": false
+  },
+  "jest": {
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ],
+    "verbose": true
+  }
+}
